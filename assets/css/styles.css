@@ -71,6 +71,55 @@ img {
   display: block;
 }
 
+
+/* BUTTONS CONTACT CV DOWNLOAD*/
+
+.btn-container {
+  display: flex;
+  justify-content: left;
+  gap: 1rem;
+}
+
+.btn {
+  font-weight: 600;
+  transition: all 300ms ease;
+  padding: 1rem;
+  width: 8rem;
+  border-radius: 2rem;
+}
+
+.btn-color-1,
+.btn-color-2 {
+  border: rgb(53, 53, 53) 0.1rem solid;
+}
+
+.btn-color-1:hover,
+.btn-color-2:hover {
+  cursor: pointer;
+}
+
+.btn-color-1,
+.btn-color-2:hover {
+  background: var(--second-color);
+  color: white;
+}
+
+.btn-color-1:hover {
+  background: var(--second-color);;
+}
+
+.btn-color-2 {
+  background: none;
+}
+
+.btn-color-2:hover {
+  border: rgb(255, 255, 255) 0.1rem solid;
+}
+
+.btn-container {
+  gap: 1rem;
+}
+
 /*===== CLASS CSS ===== */
 .section-title {
   position: relative;
@@ -190,8 +239,8 @@ img {
 /*===== HOME =====*/
 .home {
   position: relative;
-  row-gap: 5rem;
-  padding: rem 0 5rem;
+  row-gap: 1.6rem;
+  padding: rem 0 2rem;
 }
 
 .home__data {
@@ -476,9 +525,10 @@ img {
     margin-right: auto;
   }
   .home {
-    padding: 10rem 0 2rem;
+    padding: 7rem 0 2rem;
   }
   .home__img {
     width: 450px;
   }
 }
+
