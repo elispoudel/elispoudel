@@ -4,8 +4,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+         
         <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="assets/css/styles1.css">
         <link rel="stylesheet" href="assets/css/styles2.css">
+       
         <!-- =====BOX ICONS===== -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
         <title>Welcome to my official webpage </title>
@@ -13,7 +16,6 @@
         <script type="text/javascript" src="js/lightbox-plus-jquery.min.js"></script>
     </head>
     <body>
-
           <!--===== HEADER =====-->
         <header class="l-header">
             <nav class="nav bd-grid">
@@ -39,9 +41,9 @@
         <main class="l-main">
             <!--===== HOME =====-->
             <section class="home bd-grid" id="home">
-                <div class="home__data">
+               <div class="home__data">
                     <h1 class="home__title">Hi,<br>I'am <span class="home__title-color">Elis</span></h1><h3>Computer Engineering Student</h3>
-                    <p class="about__text">I am from kathmandu. I am studying Computer Engineering <br>at Advance Enginnering College And Management(ACEM).</p>  
+                    <p class="about__text">I am from Kathmandu. I am studying Computer Engineering <br>at Advanced College of Engineering and Management(ACEM).</p>  
                  <br>
           <div class="btn-container">
           <button
@@ -74,7 +76,7 @@
             </section>
  <section id="experience">
       <p class="section__text__p1">Explore My</p>
-      <h1 class="title">Experience</h1>
+    <h1 class="title1"><center>Experience</center></h1>
       <div class="experience-details-container">
         <div class="about-containers">
           <div class="details-container">
@@ -185,7 +187,7 @@
     <!--===== projects =====-->       
  <section id="projects">
       <p class="section__text__p1">Browse My Recent</p>
-      <h1 class="title">Projects</h1>
+      <h1 class="title1"><center>Projects</center></h1>
       <div class="experience-details-container">
         <div class="about-containers">
           <div class="details-container color-container">
@@ -263,28 +265,67 @@
         </div>
       </div>
 </section>
+</body>
 <!--===== contact =====-->
+<body>
 <section id="contact">
-      <p class="section__text__p1">Get in Touch</p>
-      <h1 class="title">Contact Me</h1>
-      <div class="contact-info-upper-container">
-        <div class="contact-info-container">
-          <img
-            src="./assets/img/email.png"
-            alt="Email icon"
-            class="icon contact-icon email-icon"
-          />
-          <p><a href="mailto:poudelalish02@gmail.com">Email</a></p>
+  <style>
+   .container {
+  width: auto;
+  margin: 0 auto; /* center horizontally */
+   }
+  </style>  
+    <div class="container">
+      <img src="img/shape.png" class="square" alt="" />
+      <div class="form">
+        <div class="contact-info">
+          <h2 class="title1">Let's get in touch</h2>
+          <p class="text">
+            Send us your message and we will response to you very soon.
+          </p>
+
+          <div class="info">
+            <div class="information">
+              <img src="/assets/img/location.png" class="icon" alt="" />
+              <p>kathmandu, Kalanki</p>
+            </div>
+            <div class="information">
+              <img src="/assets/img/email.png" class="icon" alt="" />
+              <p>poudelelis@gmail.com</p>
+            </div>
+            <div class="information">
+              <img src="/assets/img/phone.png" class="icon" alt="" />
+              <p>9807083480</p>
+            </div>
+          </div>
         </div>
-        <div class="contact-info-container">
-          <img
-            src="./assets/img/linkedin.png"
-            alt="LinkedIn icon"
-            class="icon contact-icon"
-          />
-          <p><a href="https://www.linkedin.com/in/elispoudel/">LinkedIn</a></p>
+
+        <div class="contact-form">
+          <span class="circle one"></span>
+          <span class="circle two"></span>
+          <form action="https://api.web3forms.com/submit" method="POST">
+            <h3 class="title">Contact us</h3>
+            <div class="input-container">
+              <input type="hidden" name="access_key" value="cd2f6b9a-f7ed-4634-bb45-5a6d766b6eb9">
+              <input type="text" name="name" class="input" />
+              <label for="">Full Name</label>
+              <span>Full Name</span>
+            </div>
+            <div class="input-container">
+              <input type="email" name="email" class="input" />
+              <label for="">Email</label>
+              <span>Email</span>
+              </div>
+            <div class="input-container textarea">
+              <textarea name="message" class="input"></textarea>
+              <label for="">Message</label>
+              <span>Message</span>
+            </div>
+            <input type="submit" value="Send" class="btn" />
+          </form>
         </div>
       </div>
+    </div>
     </section>
         <!--===== FOOTER =====-->
         <footer class="footer">
@@ -295,6 +336,7 @@
         <script src="https://unpkg.com/scrollreveal"></script>
 
         <!--===== MAIN JS =====-->
+        <script src="app.js"></script>
         <script src="assets/js/main.js"></script>
     </body>
 </html>
