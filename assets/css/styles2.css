@@ -377,35 +377,11 @@ article .icon {
   }
 
   section {
-    margin: 0 1rem !important;
-    padding-top: 2vh;
+    margin: 4rem 0 1rem !important;
+    padding-top: 0vh;
+    margin-left: auto;
+    margin-right: auto;
     height: auto !important;
-  }
-
-  .section-container {
-    flex-direction: column !important;
-    gap: 2rem !important;
-  }
-
-  .section__pic-container {
-    width: 200px !important;
-    height: 200px !important;
-    margin: 0 auto !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-
-  .section__pic-container img {
-    width: 100% !important;
-    height: auto !important;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .section__text {
-    width: 100% !important;
-    text-align: center !important;
   }
 
   #profile {
@@ -419,13 +395,14 @@ article .icon {
   .btn-container {
     flex-direction: column !important;
     align-items: center !important;
-    gap: 1rem !important;
-    width: 100%;
+    gap: 1.2rem !important;
+    width: 70%;
   }
 
   .btn {
     width: 80% !important;
     max-width: 300px !important;
+   
   }
 
   .about-containers {
@@ -454,12 +431,9 @@ article .icon {
 
   #hamburger-nav {
     display: block;
+  
   }
 
-  nav,
-  ul {
-    display: none;
-  }
 }
 
 /* Tablets (601px–1024px) */
