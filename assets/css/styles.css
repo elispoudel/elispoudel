@@ -282,13 +282,13 @@ img {
 }
 
 .home__img {
-  gap: 5rem;;
+  gap: var(--mb-5);;
   position: absolute;
   right: 0;
   width: 250px;
  
  bottom: -10%; 
- height: auto;   /* keep aspect ratio */
+ height: auto;  /* keep aspect ratio */
 }
 
 .home__blob {
