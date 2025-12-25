@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- --------- PWA META TAGS ---------- -->
+    <meta name="theme-color" content="#6429ef" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Elis Poudel" />
+     <link rel="manifest" href="assets/manifest.json" />
+
+    <!-- --------- UNICONS ---------- -->
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.8/css/line.css"
+    />
+
+    <!-- --------- CSS ---------- -->
+    <link rel="stylesheet" href="assets/style.css" />
+
+    <!-- --------- FAVICON ---------- -->
+
+    <!-- For modern devices and high-DPI displays -->
+    <link
+      rel="icon"
+      href="assets/images/favicon/icons.png"
+      sizes="192x192"
+    />
+    <title>Elis Poudel | Computer Engineering Student </title>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="container">
+      <!-- --------------- HEADER --------------- -->
+      <nav id="header" role="navigation" aria-label="Primary navigation">
+        <div class="nav-logo">
+          <a href="index.html" class="nav-logo-profile">
+      
+            <div class="nav-logo-text">
+              <p class="nav-name">Elis Poudel</p>
+            </div>
+          </a>
+        </div>
+        <div class="nav-menu" id="myNavMenu">
+          <ul class="nav_menu_list" role="menubar">
+            <li class="nav_list" role="none">
+              <a href="#home" class="nav-link active-link" role="menuitem"
+                >Home</a
+              >
+            </li>
+            <li class="nav_list" role="none">
+              <a href="#skills" class="nav-link" role="menuitem">Skills</a>
+            </li>
+            <li class="nav_list" role="none">
+              <a href="#projects" class="nav-link" role="menuitem">Projects</a>
+            </li>
+            <li class="nav_list" role="none">
+              <a href="#contact" class="nav-link" role="menuitem">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <div class="nav-icons">
+          <div class="dark-mode-toggle">
+            <button id="darkModeToggle" aria-label="Toggle dark mode">
+              <i class="uil uil-moon" id="darkModeIcon"></i>
+            </button>
+          </div>
+          <div class="nav-menu-btn">
+            <button
+              id="mobileMenuToggle"
+              aria-label="Toggle mobile menu"
+              aria-expanded="false"
+            >
+              <i class="uil uil-bars" id="mobileMenuIcon"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- -------------- MAIN ---------------- -->
+      <main class="wrapper" id="main-content" role="main">
+        <!-- -------------- FEATURED BOX ---------------- -->
+        <section class="featured-box" id="home" aria-label="Introduction">
+          <div class="featured-text">
+            <h1 class="featured-name">
+              Hi,
+              I'am Elis
+            </h1>
+            <div class="featured-text-info">
+              <p>
+                <h2>Computer Engineering Student</h2>
+                I am from Kathmandu. I am studying Computer Engineering
+                at Advanced College of Engineering and Management(ACEM).
+              </p>
+            </div>
+            <div class="featured-text-btn">
+              <button id="downloadCvButtonFeatured" class="btn btn-secondary">
+                Download CV <i class="uil uil-file-alt" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-primary" id="hireMeButton">Contact Info</button>
+            </div>
+            <div class="social-icons">
+               <div class="icon" aria-label="Facebook">
+                <a
+                  href="https://facebook.com/poudelalish"
+                  target="_blank"
+                  aria-label="Visit Facebook profile"
+                  class="social-link"
+                  data-platform="Facebook"
+                >
+                  <i class="uil uil-facebook-f"></i>
+                </a>
+              </div>
+              <div class="icon" aria-label="Instagram">
+                <a
+                  href="https://instagram.com/alishh03"
+                  target="_blank"
+                  aria-label="Visit Instagram profile"
+                  class="social-link"
+                  data-platform="instagram"
+                >
+                  <i class="uil uil-instagram"></i>
+                </a>
+              </div>
+
+              <div class="icon" aria-label="LinkedIn">
+                <a
+                  href="https://www.linkedin.com/in/elispoudel/"
+                  target="_blank"
+                  aria-label="Visit LinkedIn profile"
+                  class="social-link"
+                  data-platform="linkedin"
+                >
+                  <i class="uil uil-linkedin-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="featured-image">
+            <div class="image">
+              <img
+                src="assets/images/image-photo.png"
+                loading="lazy"
+                class="profile-image"
+              />
+            </div>
+          </div>
+        </section>
+
+        <!-- -------------- SKILLS BOX ---------------- -->
+        <section class="section" id="skills" aria-label="My Skills">
+          <div class="top-header">
+            <h1>My Skills</h1>
+          </div>
+          <div class="skills-container">
+            <div class="skill-category">
+              <div class="category-header">
+                <i class="uil uil-desktop" aria-hidden="true"></i>
+                <h3>Frontend Development</h3>
+              </div>
+              <div class="skill-items">
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>HTML</span>
+                    <span class="skill-percentage" aria-label="85 percent"
+                      >85%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="85"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="85%"></div>
+                  </div>
+                </div>
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>CSS</span>
+                    <span class="skill-percentage" aria-label="75 percent"
+                      >75%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="75"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="75%"></div>
+                  </div>
+                </div>
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>JavaScript</span>
+                    <span class="skill-percentage" aria-label="50 percent"
+                      >50%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="50"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="50%"></div>
+                  </div>
+                </div>
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>PHP</span>
+                    <span class="skill-percentage" aria-label="75 percent"
+                      >75%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="75"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="75%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="skill-category">
+              <div class="category-header">
+                <i class="uil uil-server" aria-hidden="true"></i>
+                <h3>Backend Development</h3>
+              </div>
+              <div class="skill-items">
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>Python</span>
+                    <span class="skill-percentage" aria-label="70 percent"
+                      >70%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="70"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="70%"></div>
+                  </div>
+                </div>
+      
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>C/C++</span>
+                    <span class="skill-percentage" aria-label="90 percent"
+                      >90%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="90"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="90%"></div>
+                  </div>
+                </div>
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>MySQL</span>
+                    <span class="skill-percentage" aria-label="85 percent"
+                      >85%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="85"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="85%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="skill-category">
+              <div class="category-header">
+                <i class="uil uil-cog" aria-hidden="true"></i>
+                <h3>Tools & Technologies</h3>
+              </div>
+              <div class="skill-items">
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>Git & GitHub</span>
+                    <span class="skill-percentage" aria-label="75 percent"
+                      >75%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="75"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="75%"></div>
+                  </div>
+                </div>
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>VS Code</span>
+                    <span class="skill-percentage" aria-label="90 percent"
+                      >90%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="90"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="90%"></div>
+                  </div>
+                </div>
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>Machine Learning & AI</span>
+                    <span class="skill-percentage" aria-label="60 percent"
+                      >60%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="60"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="60%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="skill-category">
+              <div class="category-header">
+                <i class="uil uil-user" aria-hidden="true"></i>
+                <h3>Professional Skills</h3>
+              </div>
+              <div class="skill-items">
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>Problem Solving</span>
+                    <span class="skill-percentage" aria-label="75 percent"
+                      >75%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="75"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="75%"></div>
+                  </div>
+                </div>
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>Communication</span>
+                    <span class="skill-percentage" aria-label="70 percent"
+                      >70%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="70"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="70%"></div>
+                  </div>
+                </div>
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>Teamwork & Collaboration</span>
+                    <span class="skill-percentage" aria-label="80 percent"
+                      >80%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="80"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="80%"></div>
+                  </div>
+                </div>
+                <div class="skill-item" role="listitem">
+                  <div class="skill-info">
+                    <span>Time Management</span>
+                    <span class="skill-percentage" aria-label="80 percent"
+                      >80%</span
+                    >
+                  </div>
+                  <div
+                    class="skill-bar"
+                    role="progressbar"
+                    aria-valuenow="80"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div class="skill-progress" data-width="80%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- -------------- PROJECT BOX ---------------- -->
+        <section class="section" id="projects" aria-label="My Projects">
+          <div class="top-header">
+            <h1>Projects</h1>
+          </div>
+          <div class="project-filter">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="web">
+              Web Development
+            </button>
+            <button class="filter-btn" data-filter="fullstack">
+              Full Stack
+            </button>
+            <button class="filter-btn" data-filter="ai">AI/ML</button>
+          </div>
+          <div class="project-grid">
+            <div
+              class="project-card"
+              role="article"
+              aria-labelledby="project-1-title"
+              data-category="web"
+            >
+              <div class="project-image">
+                <img
+                  src="assets/images/projects/minorproject.jpg"
+                  alt="Automated Resume Screening System"
+                  loading="lazy"
+                  class="project-img"
+                />
+                <div class="project-overlay" aria-hidden="true">
+                  <div class="project-tech">
+                    <span class="tech-tag">PHP</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">MySQL</span>
+                    <span class="tech-tag">ML</span>
+
+                  </div>
+                  <button
+                    class="project-quick-view"
+                    data-project="minor-project"
+                  >
+                    Quick View
+                  </button>
+                </div>
+              </div>
+              <div class="project-content">
+                <h3 id="project-1-title">Automated Resume Screening System</h3>
+                <p class="project-description">
+                This is a 6-month academic minor project developed as part of the Computer Engineering curriculum. The system automates the process of screening resumes based on job descriptions, making the hiring process faster and more efficient — especially helpful for HR teams within a company.
+                </p>
+                <div
+                  class="project-links"
+                  role="group"
+                  aria-label="Project links"
+                >
+                  <a
+                   href="https://elispoudel.com.np/Automatedresumescreeningsystems/"
+                    target="_blank"
+                    class="btn-link project-link"
+                    data-project="minor-project"
+                  >
+                    Live Demo
+                    <i class="uil uil-external-link-alt" aria-hidden="true"></i>
+                  </a>
+                  <a
+                    href="https://github.com/elispoudel/Automatedresumescreeningsystems"
+                    target="_blank"
+                    class="btn-link project-link"
+                    data-project="elite-dental"
+                  >
+                    Source Code
+                    <i class="uil uil-github" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="project-card"
+              role="article"
+              aria-labelledby="project-2-title"
+              data-category="web"
+            >
+              <div class="project-image">
+                <img
+                  src="assets/images/projects/elis-poudel-portfolio.jpg"
+                  alt="Elis Poudel Portfolio Website homepage showing personal branding and projects"
+                  loading="lazy"
+                  class="project-img"
+                />
+                <div class="project-overlay" aria-hidden="true">
+                  <div class="project-tech">
+                    <span class="tech-tag">HTML</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">JavaScript</span>
+                  </div>
+                  <button class="project-quick-view" data-project="portfolio">
+                    Quick View
+                  </button>
+                </div>
+              </div>
+              <div class="project-content">
+                <h3 id="project-2-title">Elis Poudel - Portfolio</h3>
+                <p class="project-description">
+                  A personal portfolio showcasing my skills, projects, and
+                  experience as a web developer. Features modern design, smooth
+                  animations, and responsive layout.
+                </p>
+                <div
+                  class="project-links"
+                  role="group"
+                  aria-label="Project links"
+                >
+                  <a
+                    href="https://elispoudel.com.np/"
+                    target="_blank"
+                    class="btn-link project-link"
+                    data-project="portfolio"
+                  >
+                    Live Demo
+                    <i class="uil uil-external-link-alt" aria-hidden="true"></i>
+                  </a>
+                  <a
+                    href="https://github.com/elispoudel/elispoudel"
+                    target="_blank"
+                    class="btn-link project-link"
+                    data-project="portfolio"
+                  >
+                    Source Code
+                    <i class="uil uil-github" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="project-card"
+              role="article"
+              aria-labelledby="project-3-title"
+              data-category="fullstack ai"
+            >
+              <div class="project-image">
+                <div class="project-placeholder-img">
+                  <i class="uil uil-user-circle" aria-hidden="true"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true">
+                  <div class="project-tech">
+                    <span class="tech-tag">Web3.js</span>
+                    <span class="tech-tag">Solidity</span>
+                    <span class="tech-tag">Ganache</span>
+                    <span class="tech-tag">MetaMask</span>
+                  </div>
+                  <button
+                    class="project-quick-view"
+                    data-project="major-project"
+                  >
+                    Quick View
+                  </button>
+                </div>
+              </div>
+              <div class="project-content">
+                <h3 id="project-3-title">Inventory Management using Blockchain</h3>
+                <p class="project-description">
+                 This is a 12-month academic major project developed as part of the Computer Engineering curriculum.Decentralized inventory management system that tracks and secures stock using blockchain technology. Built with Python, Flask, MySQL, and smart contracts for transparent and tamper-proof records.
+                </p>
+                <div
+                  class="project-links"
+                  role="group"
+                  aria-label="Project links"
+                >
+                  <a href="#" class="btn-link disabled" aria-disabled="true"
+                    >In Development</a
+                  >
+                  <a href="#" class="btn-link disabled" aria-disabled="true"
+                    >Private Repo</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- -------------- CONTACT BOX ---------------- -->
+        <section class="section" id="contact" aria-label="Contact Information">
+          <div class="top-header">
+            <h1>Get in touch</h1>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="contact-info">
+                <h3>
+                Send us your message and we will response to you very soon.
+                </h3>
+                <div class="contact-item">
+                  <i class="uil uil-envelope" aria-hidden="true"></i>
+                  <div>
+                    <h4>Email</h4>
+                    <p>poudelelis@gmail.com</p>
+                  </div>
+                </div>
+                <div class="contact-item">
+                  <i class="uil uil-phone" aria-hidden="true"></i>
+                  <div>
+                    <h4>Phone</h4>
+                    <p>+977 9807083480</p>
+                  </div>
+                </div>
+                <div class="contact-item">
+                  <i class="uil uil-map-marker" aria-hidden="true"></i>
+                  <div>
+                    <h4>Location</h4>
+                    <p>kathmandu, Nepal</p>
+                  </div>
+                </div>
+
+                <div class="contact-social">
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <form
+                id="contact-form"
+                class="modern-form"
+                action="form.php"
+                method="POST"
+                novalidate
+                aria-label="Contact form"
+              >
+              <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+  <!-- Honeypot for spam protection -->
+  <input type="text" name="website" id="website" style="display:none" tabindex="-1" autocomplete="off" />
+
+  <!-- Web3Forms access key -->
+  <input type="hidden" name="access_key" value="cd2f6b9a-f7ed-4634-bb45-5a6d766b6eb9" />
+
+  <div class="form-group">
+    <div class="input-container">
+      <input
+        type="text"
+        id="name"
+        name="name"
+        class="form-input"
+        autocomplete="name"
+        required
+        aria-required="true"
+        placeholder=" "
+        minlength="2"
+      />
+      <label for="name" class="form-label">Full Name</label>
+      <span class="input-focus"></span>
+    </div>
+    <div class="field-error" id="name-error"></div>
+  </div>
+
+  <div class="form-group">
+    <div class="input-container">
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="form-input"
+        autocomplete="email"
+        required
+        aria-required="true"
+        placeholder=" "
+      />
+      <label for="email" class="form-label">Email Address</label>
+      <span class="input-focus"></span>
+    </div>
+    <div class="field-error" id="email-error"></div>
+  </div>
+
+  <div class="form-group">
+    <div class="input-container">
+      <textarea
+        id="message"
+        name="message"
+        class="form-textarea"
+        rows="5"
+        required
+        aria-required="true"
+        placeholder=" "
+        minlength="10"
+      ></textarea>
+      <label for="message" class="form-label">Your Message</label>
+      <span class="input-focus"></span>
+    </div>
+    <div class="field-error" id="message-error"></div>
+  </div>
+
+  <div class="form-button">
+    <button type="submit" class="btn btn-primary" id="submit-btn" aria-live="polite">
+      <span class="btn-text">Send Message</span>
+      <span class="btn-loading" aria-hidden="true"><i class="uil uil-spinner"></i></span>
+      <i class="uil uil-message" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <div id="form-response" class="form-response" style="display:none" aria-live="polite"></div>
+</form>
+
+<script>
+const form = document.getElementById('contact-form');
+const responseDiv = document.getElementById('form-response');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(form);
+  const submitBtn = document.getElementById('submit-btn');
+  submitBtn.disabled = true;
+  submitBtn.querySelector('.btn-loading').style.display = 'inline-block';
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    });
+    const result = await response.json();
+
+    if(result.success) {
+      responseDiv.style.display = 'block';
+      responseDiv.style.color = 'green';
+      responseDiv.innerText = 'Message sent successfully!';
+      form.reset();
+    } else {
+      responseDiv.style.display = 'block';
+      responseDiv.style.color = 'red';
+      responseDiv.innerText = 'Error: ' + result.message;
+    }
+  } catch(err) {
+    responseDiv.style.display = 'block';
+    responseDiv.style.color = 'red';
+    responseDiv.innerText = 'Something went wrong. Please try again.';
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.querySelector('.btn-loading').style.display = 'none';
+  }
+});
+</script>
+
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- --------------- FOOTER --------------- -->
+      <footer class="modern-footer" role="contentinfo">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <h3>Elis Poudel</h3>
+          </div>
+          <div class="footer-links">
+            <div class="footer-column">
+              <h4>Navigation</h4>
+              <ul>
+                <li><a href="#home" class="footer-nav-link">Home</a></li>
+                <li><a href="#skills" class="footer-nav-link">Skills</a></li>
+                <li>
+                  <a href="#projects" class="footer-nav-link">Projects</a>
+                </li>
+                <li><a href="#contact" class="footer-nav-link">Contact</a></li>
+              </ul>
+            </div>
+            <div class="footer-column">
+              <h4>Connect</h4>
+              <ul>
+                <li>
+                  <a
+                    href="https://linkedin.com/in/elispoudel"
+                    target="_blank"
+                    class="social-link"
+                    data-platform="linkedin"
+                    >LinkedIn</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/elispoudel"
+                    target="_blank"
+                    class="social-link"
+                    data-platform="github"
+                    >GitHub</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://facebook.com/poudelalish"
+                    target="_blank"
+                    class="social-link"
+                    data-platform="facebook"
+                    >Facebook</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://instagram.com/alishh03"
+                    target="_blank"
+                    class="social-link"
+                    data-platform="instagram"
+                    >Instagram</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="footer-column">
+              <h4>Resources</h4>
+              <ul>
+                <li>
+                  <a
+                    href="#"
+                    id="downloadCvButtonFooter"
+                    class="footer-download-link"
+                    >Download CV</a
+                  >
+                </li>
+                <li>
+                  <a href="https://github.com/elispoudel" target="_blank"
+                    >GitHub Profile</a
+                  >
+                </li>
+                <li><a href="#contact">Get In Touch</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 All rights reserved | Elis Poudel</p>
+       
+          <div class="performance-metrics">
+            <span id="load-time"></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Project Modal -->
+    <div
+      id="project-modal"
+      class="modal"
+      role="dialog"
+      aria-labelledby="modal-title"
+      aria-hidden="true"
+    >
+      <div class="modal-content">
+        <button class="modal-close" aria-label="Close modal">
+          <i class="uil uil-times"></i>
+        </button>
+        <div class="modal-body">
+          <h3 id="modal-title">Project Details</h3>
+          <div id="modal-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top-btn" aria-label="Back to top">
+      <i class="uil uil-arrow-up" aria-hidden="true"></i>
+    </button>
+
+    <!-- Particle Background -->
+    <div id="particles-js" aria-hidden="true"></div>
+
+    <!-- ----- TYPING JS Link ----- -->
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+    <!-- ----- SCROLL REVEAL JS Link----- -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-- ----- PARTICLES JS Link----- -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <!-- ----- MAIN JS ----- -->
+    <script src="assets/main.js"></script>
+  </body>
+</html>
