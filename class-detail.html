@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Details</title>
+    
+    <!-- --------- PWA META TAGS ---------- -->
+    <meta name="theme-color" content="#6429ef" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Class Details" />
+    
+    <!-- --------- UNICONS ---------- -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" />
+    
+    <!-- --------- CSS ---------- -->
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        .class-detail-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+            padding-top: calc(90px + 0.5cm);
+        }
+
+        .class-header {
+            margin-bottom: 2rem;
+        }
+
+        .class-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color-primary);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1rem;
+            padding: 8px 16px;
+            background: var(--first-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--first-color-hover);
+            transform: translateX(-4px);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-color-second);
+            padding: 2rem;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        body.dark-mode .chapters-section {
+            background: rgba(50, 50, 60, 0.7);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .chapters-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chapters-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chapter-btn {
+            padding: 12px 16px;
+            background: var(--first-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter-btn:hover {
+            background: var(--first-color-hover);
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(100, 41, 239, 0.3);
+        }
+
+        .chapter-btn.active {
+            background: var(--first-color-hover);
+            box-shadow: 0 4px 12px rgba(100, 41, 239, 0.3);
+        }
+
+        .pdf-viewer-container {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--border-color, #e0e0e0);
+            border-radius: 12px;
+            padding: 1.5rem;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.dark-mode .pdf-viewer-container {
+            background: rgba(50, 50, 60, 0.7);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .pdf-viewer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color, #e0e0e0);
+        }
+
+        body.dark-mode .pdf-viewer-header {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .pdf-viewer-header h3 {
+            font-size: 1rem;
+            margin: 0;
+            color: var(--text-color-primary);
+        }
+
+        .pdf-viewer-info {
+            font-size: 12px;
+            color: var(--text-color-second);
+        }
+
+        #pdf-container {
+            flex: 1;
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        body.dark-mode #pdf-container {
+            background: rgba(40, 40, 50, 0.8);
+        }
+
+        .pdf-canvas {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .pdf-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .pdf-controls button {
+            padding: 8px 16px;
+            background: var(--first-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pdf-controls button:hover {
+            background: var(--first-color-hover);
+            transform: translateY(-2px);
+        }
+
+        .pdf-controls button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .page-info {
+            color: var(--text-color-second);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-color-second);
+            padding: 2rem;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .pdf-viewer-container {
+                min-height: 400px;
+            }
+
+            #pdf-container {
+                min-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav id="header" role="navigation" aria-label="Primary navigation">
+            <div class="nav-logo">
+                <a href="index.html" class="nav-logo-profile">
+                    <div class="nav-logo-text">
+                        <p class="nav-name">Elis Poudel</p>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-icons">
+                <div class="dark-mode-toggle">
+                    <button id="darkModeToggle" aria-label="Toggle dark mode">
+                        <i class="uil uil-moon" id="darkModeIcon"></i>
+                    </button>
+                </div>
+                <div class="profile-menu">
+                    <button id="profileMenuToggle" aria-label="Toggle profile menu" class="profile-avatar">
+                        <i class="uil uil-user-circle"></i>
+                        <span id="profileUsername" class="profile-name">Student</span>
+                    </button>
+                    <div id="profileDropdown" class="profile-dropdown">
+                        <div class="profile-item logout-item" id="logoutDropdown">
+                            <i class="uil uil-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="wrapper class-detail-container" id="main-content" role="main">
+            <div class="class-header">
+                <button class="back-btn" onclick="window.history.back()">
+                    <i class="uil uil-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+                <h1 id="classTitle">Class Details</h1>
+            </div>
+
+            <div class="main-content">
+                <!-- Chapter Notes Section -->
+                <div class="chapters-section">
+                    <h2>
+                        <i class="uil uil-book-open"></i>
+                        Chapter Notes
+                    </h2>
+                    <div class="chapters-list" id="chaptersList">
+                        <div class="empty-state">
+                            <i class="uil uil-inbox"></i>
+                            <p>No chapters available yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PDF Viewer Section -->
+                <div class="pdf-viewer-container">
+                    <div class="pdf-viewer-header">
+                        <h3 id="pdfTitle">Select a chapter to view</h3>
+                        <div class="pdf-viewer-info">
+                            <span id="pageInfo"></span>
+                        </div>
+                    </div>
+
+                    <div id="pdf-container">
+                        <div class="empty-state">
+                            <i class="uil uil-file-pdf"></i>
+                            <p>Select a chapter to view the PDF</p>
+                        </div>
+                    </div>
+
+                    <div class="pdf-controls">
+                        <button id="prevBtn" onclick="previousPage()" title="Previous Page">
+                            <i class="uil uil-arrow-left"></i>
+                            Previous
+                        </button>
+                        <span class="page-info">
+                            Page <span id="currentPage">-</span> of <span id="totalPages">-</span>
+                        </span>
+                        <button id="nextBtn" onclick="nextPage()" title="Next Page">
+                            Next
+                            <i class="uil uil-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- PDF.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="assets/drive-config.js"></script>
+    <script src="assets/drive-service.js"></script>
+    <script>
+        // Set up PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        let currentPdf = null;
+        let currentPage = 1;
+        let totalPages = 0;
+        let chaptersDataCache = null;
+
+        // Require login
+        if (!sessionStorage.getItem('loggedInUser')) {
+            window.location.href = 'login.html';
+        }
+
+        // Get class ID from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const classId = urlParams.get('id');
+
+        if (!classId) {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Initialize page
+        async function initPage() {
+            try {
+                chaptersDataCache = await DriveService.fetchChapters();
+                localStorage.setItem('chaptersData', JSON.stringify(chaptersDataCache));
+
+                const classData = chaptersDataCache[classId];
+
+                if (!classData) {
+                    console.error('Class not found');
+                    return;
+                }
+
+                document.getElementById('classTitle').textContent = classData.title;
+                document.title = classData.title + ' - Chapter Notes';
+
+                loadChapters(classData.chapters);
+
+                const username = sessionStorage.getItem('loggedInUser') || 'Student';
+                document.getElementById('profileUsername').textContent = username;
+
+            } catch (err) {
+                console.error('Error loading class data:', err);
+                document.getElementById('chaptersList').innerHTML = 
+                    '<div class="empty-state"><i class="uil uil-alert"></i><p>Error loading chapters: ' + err.message + '</p></div>';
+            }
+        }
+
+        function loadChapters(chapters) {
+            const chaptersList = document.getElementById('chaptersList');
+            
+            if (!chapters || chapters.length === 0) {
+                chaptersList.innerHTML = '<div class="empty-state"><i class="uil uil-inbox"></i><p>No chapters available yet</p></div>';
+                return;
+            }
+
+            chaptersList.innerHTML = '';
+            chapters.forEach((chapter, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'chapter-btn';
+                btn.textContent = `${chapter.title}_${chapter.date}`;
+                btn.onclick = () => loadPdf(chapter, index);
+                chaptersList.appendChild(btn);
+            });
+        }
+
+        function showDrivePdf(chapter) {
+            document.getElementById('pdfTitle').textContent = chapter.title;
+            document.getElementById('pageInfo').textContent = chapter.date;
+            document.getElementById('currentPage').textContent = '-';
+            document.getElementById('totalPages').textContent = '-';
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = true;
+
+            const proxyUrl = DriveService.getPdfUrl(chapter);
+            const iframe = document.createElement('iframe');
+            iframe.src = proxyUrl;
+            iframe.title = chapter.title;
+            iframe.style.width = '100%';
+            iframe.style.height = '520px';
+            iframe.style.border = 'none';
+            iframe.style.borderRadius = '8px';
+
+            document.getElementById('pdf-container').innerHTML = '';
+            document.getElementById('pdf-container').appendChild(iframe);
+            currentPdf = null;
+            totalPages = 0;
+            currentPage = 1;
+        }
+
+        async function loadPdf(chapter, index) {
+            try {
+                const classChapters = chaptersDataCache[classId];
+                if (!classChapters || !classChapters.chapters || !classChapters.chapters[index]) {
+                    return;
+                }
+
+                const selectedChapter = classChapters.chapters[index];
+                const pdfPath = DriveService.getPdfUrl(selectedChapter);
+
+                document.getElementById('pdf-container').innerHTML =
+                    '<div class="empty-state"><i class="uil uil-spinner-alt"></i><p>Loading PDF...</p></div>';
+
+                try {
+                    if (selectedChapter.driveFileId && DriveService.isEnabled()) {
+                        document.querySelectorAll('.chapter-btn').forEach((btn, i) => {
+                            btn.classList.toggle('active', i === index);
+                        });
+                        showDrivePdf(selectedChapter);
+                        return;
+                    }
+
+                    const pdf = await pdfjsLib.getDocument(pdfPath).promise;
+                    currentPdf = pdf;
+                    totalPages = pdf.numPages;
+                    currentPage = 1;
+
+                    document.getElementById('pdfTitle').textContent = selectedChapter.title;
+                    document.getElementById('pageInfo').textContent = selectedChapter.date;
+                    document.getElementById('currentPage').textContent = '1';
+                    document.getElementById('totalPages').textContent = totalPages;
+
+                    document.querySelectorAll('.chapter-btn').forEach((btn, i) => {
+                        btn.classList.toggle('active', i === index);
+                    });
+
+                    renderPage(currentPage);
+                    updateControls();
+                } catch (pdfError) {
+                    console.error('PDF loading error:', pdfError);
+                    document.getElementById('pdf-container').innerHTML =
+                        '<div class="empty-state"><i class="uil uil-file-alert"></i><p>Error loading PDF: ' + pdfError.message + '</p>' +
+                        (selectedChapter.driveFileId
+                            ? '<p style="font-size: 12px; margin-top: 10px;">Try opening in Google Drive: <a href="https://drive.google.com/file/d/' + selectedChapter.driveFileId + '/view" target="_blank" rel="noopener">View PDF</a></p>'
+                            : '<p style="font-size: 12px; margin-top: 10px;">Check that "' + selectedChapter.pdfFile + '" exists.</p>') +
+                        '</div>';
+                }
+            } catch (err) {
+                console.error('Error in loadPdf:', err);
+                document.getElementById('pdf-container').innerHTML =
+                    '<div class="empty-state"><i class="uil uil-file-alert"></i><p>Error: ' + err.message + '</p></div>';
+            }
+        }
+
+        async function renderPage(pageNum) {
+            if (!currentPdf || pageNum < 1 || pageNum > totalPages) return;
+
+            try {
+                const page = await currentPdf.getPage(pageNum);
+                const scale = 1.5;
+                const viewport = page.getViewport({ scale: scale });
+
+                // Create canvas
+                const canvas = document.createElement('canvas');
+                canvas.className = 'pdf-canvas';
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                await page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                }).promise;
+
+                // Update container
+                document.getElementById('pdf-container').innerHTML = '';
+                document.getElementById('pdf-container').appendChild(canvas);
+                document.getElementById('currentPage').textContent = pageNum;
+            } catch (err) {
+                console.error('Error rendering page:', err);
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderPage(currentPage);
+                updateControls();
+            }
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderPage(currentPage);
+                updateControls();
+            }
+        }
+
+        function updateControls() {
+            document.getElementById('prevBtn').disabled = currentPage <= 1;
+            document.getElementById('nextBtn').disabled = currentPage >= totalPages;
+        }
+
+        // Logout handler
+        document.getElementById('logoutDropdown').addEventListener('click', () => {
+            sessionStorage.removeItem('loggedInUser');
+            sessionStorage.removeItem('userRole');
+            window.location.href = 'login.html';
+        });
+
+        // Profile menu toggle
+        document.getElementById('profileMenuToggle').addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.getElementById('profileDropdown').classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            document.getElementById('profileDropdown').classList.remove('active');
+        });
+
+        // Initialize
+        initPage();
+    </script>
+
+    <!-- --------- MAIN JS ---------- -->
+    <script src="assets/main.js"></script>
+</body>
+</html>
