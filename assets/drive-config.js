@@ -8,5 +8,5 @@
 const DRIVE_CONFIG = {
   enabled: true,
   webAppUrl: 'https://script.google.com/macros/s/AKfycbzqyQsrrYUN9_wrCQT0e-GaDV5879zjV6500jxUPDeoBmWScChrad0dH8dihty2Nrwu/exec',
-  uploadSecret: 'same-secret-as-in-code-gs',
+  uploadSecret: 'my-super-secret-2026',
 };
