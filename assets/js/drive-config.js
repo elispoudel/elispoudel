@@ -7,6 +7,6 @@
  */
 const DRIVE_CONFIG = {
   enabled: true,
-  webAppUrl: 'https://script.google.com/macros/s/AKfycbwyp1jpu07G8rSXEl8KCe06a6lCOcVpwMbxek3uxFlQkniA7gvb5XU3IjFvdL8SG_oHOw/exec',
-  uploadSecret: '20600512',
+  webAppUrl: 'https://script.google.com/macros/s/AKfycbyVN5RY3BDZdXNPqRzoDSjhV_HaHc5k5CYAflF1zlj-D1rU-pRcTRoymSYFDPOX3rYp2w/exec',
+  uploadSecret: 'pbs@123',
 };
