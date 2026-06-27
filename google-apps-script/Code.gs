@@ -8,7 +8,7 @@
  */
 
 const FOLDER_ID = '1gb7Xww7_180OqOzknfm4XJhjpIu7NGZN';
-const UPLOAD_SECRET = '20600512';
+const UPLOAD_SECRET = 'pbs@123';
 const MANIFEST_NAME = 'chapters-manifest.json';
 
 function doGet(e) {
