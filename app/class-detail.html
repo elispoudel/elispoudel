@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Details</title>
+    
+    <!-- --------- PWA META TAGS ---------- -->
+    <meta name="theme-color" content="#6429ef" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Class Details" />
+    
+    <!-- --------- UNICONS ---------- -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" />
+    
+    <!-- --------- CSS ---------- -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .class-detail-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+            padding-top: calc(90px + 0.5cm);
+        }
+
+        .class-header {
+            margin-bottom: 2rem;
+        }
+
+        .class-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color-primary);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1rem;
+            padding: 8px 16px;
+            background: var(--first-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--first-color-hover);
+            transform: translateX(-4px);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-color-second);
+            padding: 2rem;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        body.dark-mode .chapters-section {
+            background: rgba(50, 50, 60, 0.7);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .chapters-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chapters-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chapter-btn {
+            padding: 12px 16px;
+            background: var(--first-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter-btn:hover {
+            background: var(--first-color-hover);
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(100, 41, 239, 0.3);
+        }
+
+        .chapter-btn.active {
+            background: var(--first-color-hover);
+            box-shadow: 0 4px 12px rgba(100, 41, 239, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-color-second);
+            padding: 2rem;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            /* Embedded viewer CSS removed; modal viewer is used instead */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav id="header" role="navigation" aria-label="Primary navigation">
+            <div class="nav-logo">
+                <a href="../index.html" class="nav-logo-profile">
+                    <div class="nav-logo-text">
+                        <p class="nav-name">Elis Poudel</p>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-icons">
+                <div class="dark-mode-toggle">
+                    <button id="darkModeToggle" aria-label="Toggle dark mode">
+                        <i class="uil uil-moon" id="darkModeIcon"></i>
+                    </button>
+                </div>
+                <div class="profile-menu">
+                    <button id="profileMenuToggle" aria-label="Toggle profile menu" class="profile-avatar">
+                        <i class="uil uil-user-circle"></i>
+                        <span id="profileUsername" class="profile-name">Student</span>
+                    </button>
+                    <div id="profileDropdown" class="profile-dropdown">
+                        <div class="profile-item logout-item" id="logoutDropdown">
+                            <i class="uil uil-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="wrapper class-detail-container" id="main-content" role="main">
+            <div class="class-header">
+                <button class="back-btn" onclick="window.history.back()">
+                    <i class="uil uil-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+                <h1 id="classTitle">Class Details</h1>
+            </div>
+
+            <div class="main-content">
+                <!-- Chapter Notes Section -->
+                <div class="chapters-section">
+                    <h2>
+                        <i class="uil uil-book-open"></i>
+                        Chapter Notes
+                    </h2>
+                    <div class="chapters-list" id="chaptersList">
+                        <div class="empty-state">
+                            <i class="uil uil-inbox"></i>
+                            <p>No chapters available yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PDF Viewer handled by modal; removed embedded viewer for a cleaner UI -->
+            </div>
+        </main>
+    </div>
+
+    <!-- PDF.js Library -->
+    <link rel="stylesheet" href="../assets/css/pdf-viewer.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="../assets/js/pdf-viewer.js"></script>
+    <script src="../assets/js/paths.js"></script>
+    <script src="../assets/js/drive-config.js"></script>
+    <script src="../assets/js/drive-service.js"></script>
+    <script>
+        let chaptersDataCache = null;
+
+        // Restore session from localStorage if available
+        if (!sessionStorage.getItem('loggedInUser')) {
+            const savedUser = localStorage.getItem('loggedInUser');
+            const savedRole = localStorage.getItem('userRole');
+            if (savedUser) {
+                sessionStorage.setItem('loggedInUser', savedUser);
+                sessionStorage.setItem('userRole', savedRole || 'student');
+            }
+        }
+
+        if (!sessionStorage.getItem('loggedInUser')) {
+            window.location.href = SITE.pages.login;
+        }
+
+        // Get class ID from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const classId = urlParams.get('id');
+
+        if (!classId) {
+            window.location.href = SITE.pages.dashboard;
+        }
+
+        async function initPage() {
+            try {
+                chaptersDataCache = await DriveService.fetchChapters();
+                localStorage.setItem('chaptersData', JSON.stringify(chaptersDataCache));
+
+                const classData = chaptersDataCache[classId];
+
+                if (!classData) {
+                    console.error('Class not found');
+                    return;
+                }
+
+                document.getElementById('classTitle').textContent = classData.title;
+                document.title = classData.title + ' - Chapter Notes';
+
+                loadChapters(classData.chapters);
+
+                        // add admin diagnostic button if admin
+                        try {
+                            const role = sessionStorage.getItem('userRole') || localStorage.getItem('userRole');
+                            if (role === 'admin') addPdfDiagButton();
+                        } catch (e) {}
+
+                const username = sessionStorage.getItem('loggedInUser') || 'Student';
+                document.getElementById('profileUsername').textContent = username;
+
+            } catch (err) {
+                console.error('Error loading class data:', err);
+                document.getElementById('chaptersList').innerHTML = 
+                    '<div class="empty-state"><i class="uil uil-alert"></i><p>Error loading chapters: ' + err.message + '</p></div>';
+            }
+        }
+
+        function addPdfDiagButton() {
+            const chaptersSection = document.querySelector('.chapters-section');
+            if (!chaptersSection) return;
+            if (document.getElementById('pdfDiagBtn')) return;
+            const wrapper = document.createElement('div');
+            wrapper.style.margin = '12px 0';
+            const btn = document.createElement('button');
+            btn.id = 'pdfDiagBtn';
+            btn.className = 'chapter-btn';
+            btn.textContent = 'Diagnose PDF access (admin)';
+            btn.title = 'Check Apps Script endpoint and Drive fallback for a fileId';
+            btn.addEventListener('click', async () => {
+                // find active chapter or prompt
+                const active = document.querySelector('.chapter-btn.active');
+                let fileId = active ? active.getAttribute('data-pdf-id') : null;
+                if (!fileId) fileId = prompt('Enter Drive fileId to diagnose');
+                if (!fileId) return;
+                try {
+                    const results = await window.PDFViewer.diagnose(fileId);
+                    console.log('PDF diagnose result', results);
+                    alert(JSON.stringify(results, null, 2).slice(0, 4000));
+                } catch (err) {
+                    console.error('Diagnose failed', err);
+                    alert('Diagnose failed: ' + err.message);
+                }
+            });
+            wrapper.appendChild(btn);
+            const list = document.getElementById('chaptersList');
+            chaptersSection.insertBefore(wrapper, list);
+        }
+
+        window.addEventListener('storage', (event) => {
+            if (event.key !== 'chaptersData' || !event.newValue) return;
+            try {
+                const updatedData = JSON.parse(event.newValue);
+                chaptersDataCache = updatedData;
+                const classData = chaptersDataCache[classId];
+                if (classData) {
+                    loadChapters(classData.chapters);
+                }
+            } catch (err) {
+                console.error('Failed to parse updated chapters data from storage event:', err);
+            }
+        });
+
+        function loadChapters(chapters) {
+            const chaptersList = document.getElementById('chaptersList');
+            
+            if (!chapters || chapters.length === 0) {
+                chaptersList.innerHTML = '<div class="empty-state"><i class="uil uil-inbox"></i><p>No chapters available yet</p></div>';
+                return;
+            }
+
+            chaptersList.innerHTML = '';
+            chapters.forEach((chapter, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'chapter-btn';
+                btn.textContent = chapter.title || `Chapter ${index + 1}`;
+
+                // Attach data attributes for the global PDF viewer
+                if (chapter.driveFileId) btn.setAttribute('data-pdf-id', chapter.driveFileId);
+                else if (chapter.pdfFile) {
+                    const url = DriveService.getPdfUrl(chapter);
+                    btn.setAttribute('data-pdf-url', url);
+                }
+
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.chapter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const fileId = btn.getAttribute('data-pdf-id');
+                    const url = btn.getAttribute('data-pdf-url');
+                    const title = chapter.title || (chapter.pdfFile || fileId || `Chapter ${index+1}`);
+
+                    if (window.PDFViewer && typeof PDFViewer.open === 'function') {
+                        PDFViewer.open({ url: url || undefined, fileId: fileId || undefined });
+                    } else {
+                        // fallback: open in new tab
+                        if (url) window.open(url, '_blank');
+                        else if (fileId) window.open('https://drive.google.com/file/d/' + encodeURIComponent(fileId) + '/view', '_blank');
+                    }
+                });
+
+                chaptersList.appendChild(btn);
+            });
+        }
+
+        // Logout handler
+        const logoutDropdown = document.getElementById('logoutDropdown');
+        if (logoutDropdown) logoutDropdown.addEventListener('click', () => {
+            sessionStorage.removeItem('loggedInUser');
+            sessionStorage.removeItem('userRole');
+            window.location.href = SITE.pages.login;
+        });
+
+        // Profile menu toggle
+        const profileMenuToggle = document.getElementById('profileMenuToggle');
+        if (profileMenuToggle) profileMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.getElementById('profileDropdown').classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            const pd = document.getElementById('profileDropdown');
+            if (pd) pd.classList.remove('active');
+        });
+
+        // Initialize
+        initPage();
+    </script>
+
+    <!-- --------- MAIN JS ---------- -->
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>
