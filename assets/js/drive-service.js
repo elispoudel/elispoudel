@@ -94,10 +94,16 @@ const DriveService = {
     console.debug('DriveService.gasPostJson()', { url, payload });
     let res;
     try {
+      const body = new URLSearchParams({ payload: JSON.stringify(payload) });
       res = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json;charset=utf-8' },
-        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+          'Accept': 'application/json',
+        },
+        body: body.toString(),
+        mode: 'cors',
+        credentials: 'omit',
       });
     } catch (err) {
       console.warn('DriveService.gasPostJson failed, falling back to iframe:', err);
