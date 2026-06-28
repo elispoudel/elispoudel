@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#6429ef" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Elis Poudel" />
+    <link rel="manifest" href="../assets/manifest.json" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="../assets/images/favicon/icons.png" sizes="192x192" />
+    <title>Dashboard | Elis Poudel</title>
+    <script>
+      (function () {
+        const savedUser = sessionStorage.getItem('loggedInUser') || localStorage.getItem('loggedInUser');
+        const savedRole = sessionStorage.getItem('userRole') || localStorage.getItem('userRole');
+        const loginUrl = (typeof SITE !== 'undefined' && SITE.pages && SITE.pages.login) ? SITE.pages.login : 'app/login.html';
+        const adminUrl = (typeof SITE !== 'undefined' && SITE.pages && SITE.pages.admin) ? SITE.pages.admin : 'app/admin-panel.html';
+        if (!savedUser) {
+          window.location.href = loginUrl;
+          return;
+        }
+        if (savedRole === 'admin') {
+          // prevent admins from accessing student dashboard
+          window.location.href = adminUrl;
+          return;
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="container">
+      <nav id="header" role="navigation" aria-label="Primary navigation">
+        <div class="nav-logo">
+          <a href="../index.html" class="nav-logo-profile">
+            <div class="nav-logo-text">
+              <p class="nav-name">Elis Poudel</p>
+            </div>
+          </a>
+        </div>
+        <!-- <div class="nav-menu" id="myNavMenu">
+          <ul class="nav_menu_list" role="menubar"> -->
+            <!-- <li class="nav_list" role="none">
+              <a href="../index.html#home" class="nav-link" role="menuitem">Home</a>
+            </li>
+            <li class="nav_list" role="none">
+              <a href="../index.html#skills" class="nav-link" role="menuitem">Skills</a>
+            </li>
+            <li class="nav_list" role="none">
+              <a href="../index.html#projects" class="nav-link" role="menuitem">Projects</a>
+            </li>
+            <li class="nav_list" role="none">
+              <a href="../index.html#contact" class="nav-link" role="menuitem">Contact</a>
+            </li> -->
+            <!-- <li class="nav_list" role="none">
+              <button id="logoutBtn" class="nav-link logout-link" role="menuitem" style="background: none; border: none; cursor: pointer; padding: 0; font-size: inherit;">Logout</button>
+            </li> -->
+          <!-- </ul>
+        </div> -->
+        <div class="nav-icons">
+          <div class="dark-mode-toggle">
+            <button id="darkModeToggle" aria-label="Toggle dark mode">
+              <i class="uil uil-moon" id="darkModeIcon"></i>
+            </button>
+          </div>
+          <div class="profile-menu">
+            <button id="profileMenuToggle" aria-label="Toggle profile menu" class="profile-avatar">
+              <i class="uil uil-user-circle"></i>
+              <span id="profileUsername" class="profile-name">Student</span>
+            </button>
+            <div id="profileDropdown" class="profile-dropdown">
+              <div class="profile-item admin-panel-item" id="adminPanelItem" style="display:none;">
+                <a href="admin-panel.html" style="display: flex; align-items: center; gap: 8px; color: inherit; text-decoration: none;">
+                  <i class="uil uil-setting"></i>
+                  <span>Admin Panel</span>
+                </a>
+              </div>
+              <div class="profile-item logout-item" id="logoutDropdown">
+                <i class="uil uil-sign-out-alt"></i>
+                <span>Logout</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+<br>
+      <main class="wrapper" id="main-content" role="main">
+        <section class="dashboard-page" id="dashboard-page" aria-label="Dashboard">
+          <div class="dashboard-container">
+            <div class="profile-card glass-card">
+              <div class="profile-header">
+                <div class="profile-avatar-large">
+                  <i class="uil uil-user-circle"></i>
+                </div>
+                <div class="profile-info">
+                  <h2 class="profile-role">Student</h2>
+                  <p class="profile-username" id="dashboardUsername">Username: pbs</p>
+                  <p class="profile-status">Active</p>
+                </div>
+              </div>
+            
+                
+
+            </div>
+              <!-- Class cards (one card per class subject) -->
+              <div class="class-cards" aria-label="Class cards">
+                <div class="class-card" data-class="6">
+                  <img src="../assets/images/class_png_photo/6.png" alt="Class 6" class="class-thumb" />
+                  <div class="class-content simple">
+                    <h3 class="class-title">Class 6</h3>
+                  </div>
+                  <div class="class-arrow"><i class="uil uil-angle-right-b"></i></div>
+                </div>
+
+                <div class="class-card" data-class="7">
+                  <img src="../assets/images/class_png_photo/7.png" alt="Class 7" class="class-thumb" />
+                  <div class="class-content simple">
+                    <h3 class="class-title">Class 7</h3>
+                  </div>
+                  <div class="class-arrow"><i class="uil uil-angle-right-b"></i></div>
+                </div>
+
+                <div class="class-card" data-class="8">
+                  <img src="../assets/images/class_png_photo/8.png" alt="Class 8" class="class-thumb" />
+                  <div class="class-content simple">
+                    <h3 class="class-title">Class 8</h3>
+                  </div>
+                  <div class="class-arrow"><i class="uil uil-angle-right-b"></i></div>
+                </div>
+
+                <div class="class-card" data-class="9">
+                  <img src="../assets/images/class_png_photo/9.png" alt="Class 9" class="class-thumb" />
+                  <div class="class-content simple">
+                    <h3 class="class-title">Class 9</h3>
+                  </div>
+                  <div class="class-arrow"><i class="uil uil-angle-right-b"></i></div>
+                </div>
+
+                <div class="class-card" data-class="10">
+                  <img src="../assets/images/class_png_photo/10.png" alt="Class 10" class="class-thumb" />
+                  <div class="class-content simple">
+                    <h3 class="class-title">Class 10</h3>
+                  </div>
+                  <div class="class-arrow"><i class="uil uil-angle-right-b"></i></div>
+                </div>
+              </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="../assets/js/paths.js"></script>
+    <script src="../assets/js/drive-config.js"></script>
+    <script src="../assets/js/drive-service.js"></script>
+    <script>
+        // Load and display chapter data in class cards
+        async function initDashboardChapters() {
+            try {
+                const chaptersData = await DriveService.fetchChapters();
+                
+                // Update each class card with chapter count
+                const classIds = ['6', '7', '8', '9', '10'];
+                classIds.forEach(classId => {
+                    const card = document.querySelector(`.class-card[data-class="${classId}"]`);
+                    if (card) {
+                        const classData = chaptersData[classId];
+                        const chapterCount = classData && classData.chapters ? classData.chapters.length : 0;
+                        
+                        const content = card.querySelector('.class-content');
+                        if (content) {
+                            const countHtml = chapterCount > 0 
+                                ? `<p class="chapter-count" style="font-size: 0.85rem; color: var(--first-color); margin-top: 4px;"><i class="uil uil-book-open"></i> ${chapterCount} chapter${chapterCount !== 1 ? 's' : ''}</p>`
+                                : `<p class="chapter-count" style="font-size: 0.85rem; color: var(--text-color-second); margin-top: 4px;">No chapters yet</p>`;
+                            
+                            const existingCount = content.querySelector('.chapter-count');
+                            if (existingCount) {
+                                existingCount.remove();
+                            }
+                            content.insertAdjacentHTML('beforeend', countHtml);
+                        }
+                    }
+                });
+            } catch (err) {
+                console.error('Error loading chapters for dashboard:', err);
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initDashboardChapters);
+        
+        // Listen for storage changes (when admin updates chapters)
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'chaptersData' && event.newValue) {
+                initDashboardChapters();
+            }
+        });
+    </script>
+    <script src="../assets/js/main.js"></script>
+    <link rel="stylesheet" href="../assets/css/pdf-viewer.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="../assets/js/pdf-viewer.js"></script>
+  </body>
+</html>
