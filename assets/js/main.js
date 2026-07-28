@@ -721,7 +721,8 @@ class LoginManager {
   constructor() {
     this.form = document.getElementById("login-form");
     this.hashSalt = "site-login-uj83dh";
-    this.storedHash = "df5187c56fe033c5412cecd098bef02e45fca835d1d99fc422ca8ce0c94852c5";
+    this.studentStoredHash = "df5187c56fe033c5412cecd098bef02e45fca835d1d99fc422ca8ce0c94852c5";
+    this.adminStoredHash = "25d6d8a96889ca7796b800474e323a2c089acb3d9634ffcbb4c42c2953bfdb9a";
     this.messageElement = null;
     this.init();
   }
@@ -742,8 +743,10 @@ class LoginManager {
       return;
     }
 
+    const hash = await this.computeHash(username, password);
+
     // Check for admin login
-    if (username === "admin" && password === "admin@2026") {
+    if (username === "admin" && hash === this.adminStoredHash) {
       sessionStorage.setItem("loggedInUser", username);
       sessionStorage.setItem("userRole", "admin");
       localStorage.setItem("loggedInUser", username);
@@ -757,8 +760,7 @@ class LoginManager {
     }
 
     // Check for student login
-    const hash = await this.computeHash(username, password);
-    if (hash === this.storedHash) {
+    if (hash === this.studentStoredHash) {
       sessionStorage.setItem("loggedInUser", username);
       sessionStorage.setItem("userRole", "student");
       localStorage.setItem("loggedInUser", username);
