@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#6429ef" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Elis Poudel" />
+    <meta name="application-name" content="Elis Poudel" />
+    <script>
+      window.__pwaEnabled = window.location.protocol !== "file:";
+      if (window.__pwaEnabled) {
+        const manifestLink = document.createElement("link");
+        manifestLink.rel = "manifest";
+        manifestLink.href = "../assets/manifest.json";
+        document.head.appendChild(manifestLink);
+
+        const appleIconLink = document.createElement("link");
+        appleIconLink.rel = "apple-touch-icon";
+        appleIconLink.href = "../assets/images/favicon/icons.png";
+        document.head.appendChild(appleIconLink);
+      }
+    </script>
+    <link rel="dns-prefetch" href="//unicons.iconscout.com" />
+    <link rel="preconnect" href="https://unicons.iconscout.com" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="icon" href="../assets/images/favicon/icons.png" sizes="192x192" />
+    <title>Dashboard | Elis Poudel</title>
+    <script>
+      (function () {
+        const savedUser = sessionStorage.getItem('loggedInUser') || localStorage.getItem('loggedInUser');
+        const savedRole = sessionStorage.getItem('userRole') || localStorage.getItem('userRole');
+        const loginUrl = (typeof SITE !== 'undefined' && SITE.pages && SITE.pages.login) ? SITE.pages.login : 'app/login.html';
+        const adminUrl = (typeof SITE !== 'undefined' && SITE.pages && SITE.pages.admin) ? SITE.pages.admin : 'app/admin-panel.html';
+        if (!savedUser) {
+          window.location.href = loginUrl;
+          return;
+        }
+        if (savedRole === 'admin') {
+          // prevent admins from accessing student dashboard
+          window.location.href = adminUrl;
+          return;
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="container">
+      <nav id="header" role="navigation" aria-label="Primary navigation">
+        <div class="nav-logo">
+          <a href="../index.html" class="nav-logo-profile">
+            <div class="nav-logo-text">
+              <p class="nav-name">Elis Poudel</p>
+            </div>
+          </a>
+        </div>
+        <!-- <div class="nav-menu" id="myNavMenu">
+          <ul class="nav_menu_list" role="menubar"> -->
+            <!-- <li class="nav_list" role="none">
+              <a href="../index.html#home" class="nav-link" role="menuitem">Home</a>
+            </li>
+            <li class="nav_list" role="none">
+              <a href="../index.html#skills" class="nav-link" role="menuitem">Skills</a>
+            </li>
+            <li class="nav_list" role="none">
+              <a href="../index.html#projects" class="nav-link" role="menuitem">Projects</a>
+            </li>
+            <li class="nav_list" role="none">
+              <a href="../index.html#contact" class="nav-link" role="menuitem">Contact</a>
+            </li> -->
+            <!-- <li class="nav_list" role="none">
+              <button id="logoutBtn" class="nav-link logout-link" role="menuitem" style="background: none; border: none; cursor: pointer; padding: 0; font-size: inherit;">Logout</button>
+            </li> -->
+          <!-- </ul>
+        </div> -->
+        <div class="nav-icons">
+          <div class="dark-mode-toggle">
+            <button id="darkModeToggle" aria-label="Toggle dark mode">
+              <i class="uil uil-moon" id="darkModeIcon"></i>
+            </button>
+          </div>
+          <div class="profile-menu">
+            <button id="profileMenuToggle" aria-label="Toggle profile menu" class="profile-avatar">
+              <i class="uil uil-user-circle"></i>
+              <span id="profileUsername" class="profile-name">Student</span>
+            </button>
+            <div id="profileDropdown" class="profile-dropdown">
+              <div class="profile-item admin-panel-item" id="adminPanelItem" style="display:none;">
+                <a href="admin-panel.html" style="display: flex; align-items: center; gap: 8px; color: inherit; text-decoration: none;">
+                  <i class="uil uil-setting"></i>
+                  <span>Admin Panel</span>
+                </a>
+              </div>
+              <div class="profile-item logout-item" id="logoutDropdown">
+                <i class="uil uil-sign-out-alt"></i>
+                <span>Logout</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+<br>
+      <main class="wrapper" id="main-content" role="main">
+        <section class="dashboard-page" id="dashboard-page" aria-label="Dashboard">
+          <div class="dashboard-container">
+            <div class="profile-card glass-card">
+              <div class="profile-header">
+                <div class="profile-avatar-large">
+                  <i class="uil uil-user-circle"></i>
+                </div>
+                <div class="profile-info">
+                  <h2 class="profile-role">Student</h2>
+                  <p class="profile-username" id="dashboardUsername">Username: pbs</p>
+                  <p class="profile-status">Active</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="notifications-section dashboard-notifications" aria-label="Student notifications">
+              <h3><i class="uil uil-bell"></i> Latest Notifications</h3>
+              <div id="dashboardNotificationsList"></div>
+            </div> -->
+              <!-- Class cards (one card per class subject) -->
+              <div class="class-cards" aria-label="Class cards">
+                <div class="class-card" data-class="6">
+                  <img src="../assets/images/class_png_photo/6.png" alt="Class 6" class="class-thumb" loading="lazy" decoding="async" />
+                  <div class="class-content simple">
+                    <h3 class="class-title">Class 6</h3>
+                  </div>
+                  <div class="class-arrow"><i class="uil uil-angle-right-b"></i></div>
+                </div>
+
+                <div class="class-card" data-class="7">
+                  <img src="../assets/images/class_png_photo/7.png" alt="Class 7" class="class-thumb" loading="lazy" decoding="async" />
+                  <div class="class-content simple">
+                    <h3 class="class-title">Class 7</h3>
+                  </div>
+                  <div class="class-arrow"><i class="uil uil-angle-right-b"></i></div>
+                </div>
+
+                <div class="class-card" data-class="8">
+                  <img src="../assets/images/class_png_photo/8.png" alt="Class 8" class="class-thumb" loading="lazy" decoding="async" />
+                  <div class="class-content simple">
+                    <h3 class="class-title">Class 8</h3>
+                  </div>
+                  <div class="class-arrow"><i class="uil uil-angle-right-b"></i></div>
+                </div>
+
+                <div class="class-card" data-class="9">
+                  <img src="../assets/images/class_png_photo/9.png" alt="Class 9" class="class-thumb" loading="lazy" decoding="async" />
+                  <div class="class-content simple">
+                    <h3 class="class-title">Class 9</h3>
+                  </div>
+                  <div class="class-arrow"><i class="uil uil-angle-right-b"></i></div>
+                </div>
+
+                <div class="class-card" data-class="10">
+                  <img src="../assets/images/class_png_photo/10.png" alt="Class 10" class="class-thumb" loading="lazy" decoding="async" />
+                  <div class="class-content simple">
+                    <h3 class="class-title">Class 10</h3>
+                  </div>
+                  <div class="class-arrow"><i class="uil uil-angle-right-b"></i></div>
+                </div>
+
+                <div class="class-card" data-class="reference">
+                  <img src="../assets/images/class_png_photo/rf.png" alt="Reference Materials" class="class-thumb" loading="lazy" decoding="async" />
+                  <div class="class-content simple">
+                    <h3 class="class-title">Reference Materials</h3>
+                  </div>
+                  <div class="class-arrow"><i class="uil uil-angle-right-b"></i></div>
+                </div>
+              </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <style>
+      .dashboard-notifications {
+        margin: 1rem 0 1.5rem;
+        padding: 1rem 1.2rem;
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(100, 41, 239, 0.12), rgba(255, 255, 255, 0.95));
+        border: 1px solid rgba(100, 41, 239, 0.16);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+      }
+
+      body.dark-mode .dashboard-notifications {
+        background: linear-gradient(135deg, rgba(100, 41, 239, 0.2), rgba(40, 40, 50, 0.95));
+      }
+
+      .dashboard-notifications h3 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 0.8rem;
+        color: var(--text-color-primary);
+      }
+
+      .dashboard-notification-card {
+        padding: 0.8rem 0.95rem;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(100, 41, 239, 0.12);
+        margin-bottom: 0.7rem;
+      }
+
+      body.dark-mode .dashboard-notification-card {
+        background: rgba(30, 30, 42, 0.95);
+      }
+
+      .dashboard-notification-card:last-child {
+        margin-bottom: 0;
+      }
+
+      .dashboard-notification-card p {
+        margin: 0;
+        color: var(--text-color-primary);
+        line-height: 1.5;
+      }
+
+      .dashboard-notification-card a,
+      .notification-link {
+        color: var(--first-color);
+        font-weight: 700;
+        text-decoration: underline;
+        text-decoration-thickness: 1.5px;
+        text-underline-offset: 2px;
+      }
+
+      .dashboard-notification-card a:hover,
+      .notification-link:hover {
+        color: var(--first-color-hover);
+      }
+
+      .dashboard-notification-meta {
+        display: inline-block;
+        margin-top: 0.4rem;
+        font-size: 0.78rem;
+        color: var(--first-color);
+        font-weight: 600;
+      }
+    </style>
+    <script defer src="../assets/js/paths.js"></script>
+    <script defer src="../assets/js/drive-config.js"></script>
+    <script defer src="../assets/js/drive-service.js"></script>
+    <script>
+        const NOTIFICATION_STORAGE_KEY = 'studentNotifications';
+
+        function getSitePage(pageKey) {
+            const fallbackPages = {
+                home: '../index.html',
+                login: '../app/login.html',
+                dashboard: '../app/dashboard.html',
+                admin: '../app/admin-panel.html',
+                classDetail: '../app/class-detail.html'
+            };
+            if (window.SITE && window.SITE.pages && window.SITE.pages[pageKey]) {
+                return window.SITE.pages[pageKey];
+            }
+            return fallbackPages[pageKey] || '../index.html';
+        }
+
+        function escapeHtml(text) {
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatNotificationMessage(text) {
+            const escaped = escapeHtml(text || '');
+            return escaped.replace(/(https?:\/\/[^\s]+|www\.[^\s]+)/g, (url) => {
+                const href = /^www\./i.test(url) ? `https://${url}` : url;
+                return `<a class="notification-link" href="${href}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+            });
+        }
+
+        async function refreshNotificationsFromDrive() {
+            const service = window.DriveService || window.driveService || null;
+            if (!service || typeof service.fetchNotifications !== 'function') return;
+
+            try {
+                const remoteNotifications = await service.fetchNotifications();
+                if (Array.isArray(remoteNotifications)) {
+                    localStorage.setItem(NOTIFICATION_STORAGE_KEY, JSON.stringify(remoteNotifications));
+                }
+            } catch (err) {
+                console.warn('Failed to refresh notifications from Drive:', err);
+            }
+        }
+
+        function getNotificationData() {
+            try {
+                const stored = localStorage.getItem(NOTIFICATION_STORAGE_KEY);
+                return stored ? JSON.parse(stored) : [];
+            } catch (err) {
+                console.error('Error loading notifications:', err);
+                return [];
+            }
+        }
+
+        async function loadDashboardNotifications() {
+            await refreshNotificationsFromDrive();
+            const list = document.getElementById('dashboardNotificationsList');
+            if (!list) return;
+
+            const notifications = getNotificationData().slice().sort((a, b) => (b.id || '').localeCompare(a.id || ''));
+            if (!notifications.length) {
+                list.innerHTML = '<div class="empty-state"><i class="uil uil-bell-slash"></i><p>No alerts yet.</p></div>';
+                return;
+            }
+
+            list.innerHTML = notifications.slice(0, 4).map((item) => `
+                <div class="dashboard-notification-card">
+                    <p>${formatNotificationMessage(item.message)}</p>
+                    <span class="dashboard-notification-meta">For ${item.classes.map((cls) => `Class ${cls}`).join(', ')}</span>
+                </div>
+            `).join('');
+        }
+
+        // Load and display chapter data in class cards
+        async function loadChapterDataFallback() {
+            const stored = localStorage.getItem('chaptersData');
+            if (stored) {
+                try {
+                    return JSON.parse(stored);
+                } catch (err) {
+                    console.warn('Failed to parse cached chapters data:', err);
+                }
+            }
+
+            const chaptersUrl = typeof SITE !== 'undefined' ? SITE.data.chapters : '../assets/data/chapters.json';
+            const res = await fetch(chaptersUrl);
+            const data = await res.json();
+            localStorage.setItem('chaptersData', JSON.stringify(data));
+            return data;
+        }
+
+        async function initDashboardChapters() {
+            try {
+                const driveService = window.DriveService || window.driveService || (typeof DriveService !== 'undefined' ? DriveService : null);
+                const chaptersData = driveService && typeof driveService.fetchChapters === 'function'
+                    ? await driveService.fetchChapters()
+                    : await loadChapterDataFallback();
+                
+                // Update each class card with chapter count
+                const classIds = ['6', '7', '8', '9', '10', 'reference'];
+                classIds.forEach(classId => {
+                    const card = document.querySelector(`.class-card[data-class="${classId}"]`);
+                    if (card) {
+                        const classData = chaptersData[classId];
+                        const chapterCount = classData && classData.chapters ? classData.chapters.length : 0;
+                        const isReferenceSection = classId === 'reference';
+                        const countLabel = isReferenceSection
+                            ? (chapterCount === 1 ? 'resource' : 'resources')
+                            : (chapterCount === 1 ? 'chapter' : 'chapters');
+                        
+                        const content = card.querySelector('.class-content');
+                        if (content) {
+                            const countHtml = chapterCount > 0 
+                                ? `<p class="chapter-count" style="font-size: 0.85rem; color: var(--first-color); margin-top: 4px;"><i class="uil uil-book-open"></i> ${chapterCount} ${countLabel}</p>`
+                                : `<p class="chapter-count" style="font-size: 0.85rem; color: var(--text-color-second); margin-top: 4px;">No ${isReferenceSection ? 'resources' : 'chapters'} yet</p>`;
+                            
+                            const existingCount = content.querySelector('.chapter-count');
+                            if (existingCount) {
+                                existingCount.remove();
+                            }
+                            content.insertAdjacentHTML('beforeend', countHtml);
+                        }
+                    }
+                });
+            } catch (err) {
+                console.error('Error loading chapters for dashboard:', err);
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initDashboardChapters();
+            loadDashboardNotifications();
+        });
+        
+        // Listen for storage changes (when admin updates chapters)
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'chaptersData' && event.newValue) {
+                initDashboardChapters();
+            }
+            if (event.key === NOTIFICATION_STORAGE_KEY) {
+                loadDashboardNotifications();
+            }
+        });
+
+        window.addEventListener('chaptersDataRefreshed', () => {
+            initDashboardChapters();
+        });
+
+        window.addEventListener('notificationsUpdated', loadDashboardNotifications);
+    </script>
+    <script src="../assets/js/main.js"></script>
+  </body>
+</html>
