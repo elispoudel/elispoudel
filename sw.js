@@ -1,4 +1,4 @@
-const CACHE_NAME = 'elis-poudel-v3';
+const CACHE_NAME = 'elis-poudel-v4';
 const OFFLINE_URLS = [
   './',
   './index.html',
