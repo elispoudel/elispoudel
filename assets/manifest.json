@@ -3,7 +3,7 @@
   "short_name": "Elis",
   "description": "A polished portfolio and learning app for Elis Poudel",
   "id": "./",
-  "start_url": "../index.html",
+  "start_url": "../app/login.html",
   "scope": "../",
   "display": "standalone",
   "orientation": "portrait",
