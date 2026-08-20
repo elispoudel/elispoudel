@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#6429ef" />
+  <title>Class Materials | Elis Poudel</title>
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <style>
+    .materials-page {
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 7rem 0 2rem;
+    }
+
+    .materials-topbar,
+    .materials-workspace,
+    .materials-panel,
+    .document-panel {
+      border: 1px solid rgba(100, 41, 239, 0.14);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 14px 35px rgba(55, 32, 125, 0.09);
+    }
+
+    .materials-topbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.2rem 1.35rem;
+      border-radius: 16px;
+    }
+
+    .materials-topbar-start {
+      min-width: 0;
+      grid-column: 1;
+    }
+
+    .materials-class-identity {
+      grid-column: 2;
+    }
+
+    .materials-toast {
+      position: fixed;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      z-index: 1300;
+      width: min(380px, calc(100vw - 2rem));
+      padding: 1rem 1.1rem;
+      border: 1px solid rgba(100, 41, 239, 0.2);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--text-color-primary);
+      box-shadow: 0 18px 45px rgba(55, 32, 125, 0.2);
+      animation: materialsToastIn 220ms ease-out;
+    }
+
+    .materials-toast strong {
+      display: block;
+      margin-bottom: 0.25rem;
+      color: var(--first-color);
+    }
+
+    .materials-toast p {
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    body.dark-mode .materials-toast {
+      background: rgba(30, 30, 42, 0.97);
+    }
+
+    @keyframes materialsToastIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .materials-kicker {
+      margin: 0 0 0.25rem;
+      color: var(--first-color);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .materials-topbar h1 {
+      margin: 0;
+      color: var(--text-color-primary);
+      font-size: clamp(1.35rem, 2vw, 2rem);
+    }
+
+    .materials-actions {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .materials-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      min-height: 38px;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid rgba(100, 41, 239, 0.18);
+      border-radius: 8px;
+      background: rgba(100, 41, 239, 0.07);
+      color: var(--first-color);
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .materials-btn:hover,
+    .materials-btn.primary {
+      background: var(--first-color);
+      color: #fff;
+    }
+
+    .notifications-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--first-color);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(100, 41, 239, 0.18);
+      transition: transform 160ms ease, background 160ms ease;
+    }
+
+    .notifications-toggle:hover,
+    .notifications-toggle.active {
+      background: var(--first-color-hover);
+      transform: translateY(-2px);
+    }
+
+    .notifications-section {
+      display: none;
+      margin-top: 1rem;
+      padding: 1.15rem;
+      border: 1px solid rgba(100, 41, 239, 0.22);
+      border-radius: 16px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.98), rgba(240, 231, 255, 0.95) 45%, rgba(132, 95, 255, 0.18));
+      box-shadow: 0 12px 28px rgba(100, 41, 239, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .notifications-section.active {
+      display: block;
+    }
+
+    .notifications-section::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 6px;
+      background: linear-gradient(180deg, rgba(100, 41, 239, 0.95), rgba(153, 106, 255, 0.55));
+    }
+
+    .notifications-section h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0 0 0.85rem;
+      color: var(--text-color-primary);
+      font-size: 1rem;
+    }
+
+    .notification-card {
+      padding: 0.9rem 1rem;
+      border: 1px solid rgba(100, 41, 239, 0.16);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--text-color-primary);
+    }
+
+    .notification-card + .notification-card {
+      margin-top: 0.65rem;
+    }
+
+    .notification-card p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .notification-card small {
+      display: block;
+      margin-top: 0.35rem;
+      color: var(--text-color-second);
+    }
+
+    body.dark-mode .notifications-section {
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.06), rgba(130, 95, 255, 0.2) 45%, rgba(86, 47, 199, 0.3));
+    }
+
+    body.dark-mode .notification-card {
+      background: rgba(30, 30, 42, 0.78);
+    }
+
+    .materials-workspace {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 16px;
+    }
+
+    .materials-workspace.viewer-hidden {
+      grid-template-columns: minmax(0, 720px);
+      justify-content: center;
+    }
+
+    .materials-workspace.viewer-open {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .materials-panel,
+    .document-panel {
+      min-height: clamp(520px, calc(100vh - 190px), 760px);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .materials-panel {
+      padding: 1rem;
+    }
+
+    .materials-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .materials-panel h2 {
+      margin: 0;
+      color: var(--text-color-primary);
+      font-size: 1rem;
+    }
+
+    .materials-count {
+      color: var(--first-color);
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .subject-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .subject-btn {
+      width: 100%;
+      min-height: 48px;
+      padding: 0.7rem 0.8rem;
+      border: 1px solid rgba(100, 41, 239, 0.1);
+      border-radius: 8px;
+      background: rgba(100, 41, 239, 0.055);
+      color: var(--text-color-primary);
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+      font-size: 0.8rem;
+      line-height: 1.35;
+      transition: 160ms ease;
+    }
+
+    .subject-btn:hover,
+    .subject-btn.active {
+      border-color: var(--first-color);
+      background: var(--first-color);
+      color: #fff;
+      transform: translateX(3px);
+    }
+
+    .document-panel {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: #f4f5f8;
+    }
+
+    .document-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      min-height: 54px;
+      padding: 0.7rem 0.9rem;
+      border-bottom: 1px solid rgba(100, 41, 239, 0.12);
+      background: linear-gradient(90deg, #f8f7ff, #fff);
+    }
+
+    .document-title {
+      overflow: hidden;
+      color: var(--text-color-primary);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .document-frame-wrap {
+      position: relative;
+      display: flex;
+      width: 100%;
+      flex: 1;
+      min-height: clamp(465px, calc(100vh - 245px), 700px);
+      min-width: 0;
+    }
+
+    .document-frame {
+      display: block;
+      width: 100%;
+      max-width: none;
+      flex: 1 1 100%;
+      height: 100%;
+      min-height: clamp(465px, calc(100vh - 245px), 700px);
+      min-width: 0;
+      border: 0;
+      background: #fff;
+    }
+
+    .document-empty,
+    .document-error,
+    .document-loading {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-content: center;
+      padding: 2rem;
+      color: var(--text-color-second);
+      text-align: center;
+    }
+
+    .document-empty i,
+    .document-error i,
+    .document-loading i {
+      margin-bottom: 0.7rem;
+      color: var(--first-color);
+      font-size: 3rem;
+    }
+
+    .document-empty h2,
+    .document-error h2 {
+      margin: 0 0 0.35rem;
+      color: var(--text-color-primary);
+      font-size: 1.05rem;
+    }
+
+    .document-empty p,
+    .document-error p {
+      margin: 0;
+      font-size: 0.8rem;
+    }
+
+    .document-loading {
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .document-loading i {
+      animation: materialsSpin 1s linear infinite;
+    }
+
+    @keyframes materialsSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    [hidden] { display: none !important; }
+
+    body.dark-mode .materials-topbar,
+    body.dark-mode .materials-workspace,
+    body.dark-mode .materials-panel,
+    body.dark-mode .document-panel {
+      background: rgba(30, 30, 42, 0.92);
+    }
+
+    body.dark-mode .document-toolbar {
+      background: linear-gradient(90deg, #29243e, #211f2d);
+    }
+
+    @media (min-width: 761px) and (max-width: 1099px) {
+      .materials-page {
+        width: min(100% - 2rem, 980px);
+      }
+
+      .materials-workspace {
+        grid-template-columns: minmax(210px, 245px) minmax(0, 1fr);
+        gap: 0.8rem;
+        padding: 0.8rem;
+      }
+
+      .materials-workspace.viewer-open {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .materials-panel,
+      .document-panel {
+        min-height: 560px;
+      }
+
+      .document-frame-wrap,
+      .document-frame {
+        min-height: 505px;
+      }
+
+      .document-frame {
+        width: 100% !important;
+      }
+
+      .materials-panel {
+        padding: 0.85rem;
+      }
+
+      .subject-btn {
+        font-size: 0.76rem;
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .materials-workspace {
+        grid-template-columns: 300px minmax(0, 1fr);
+        min-height: 700px;
+      }
+
+      .materials-workspace.viewer-open {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .document-panel,
+      .document-frame-wrap,
+      .document-frame {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .materials-page {
+        width: min(100% - 0.5rem, 600px);
+        padding-top: 7rem;
+      }
+
+      .materials-topbar {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.9rem;
+      }
+
+      .materials-topbar-start {
+        width: auto;
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .materials-class-identity {
+        grid-row: 1;
+        justify-self: end;
+        margin-right: 50px; 
+        }
+
+      .materials-actions {
+        grid-column: 2;
+        grid-row: 1;
+        width: auto;
+        justify-content: flex-end;
+      }
+
+      .materials-topbar .materials-btn {
+        min-height: 34px;
+        padding: 0.45rem 0.65rem;
+        font-size: 0.72rem;
+      }
+
+      .materials-workspace {
+        grid-template-columns: 1fr;
+        padding: 0.7rem;
+      }
+
+      .materials-workspace.viewer-hidden {
+        grid-template-columns: 1fr;
+      }
+
+      .materials-panel,
+      .document-panel {
+        min-height: 0;
+      }
+
+      .subject-list {
+        max-height: 240px;
+        overflow-y: auto;
+      }
+
+      .document-frame-wrap,
+      .document-frame {
+        min-height: 470px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="container">
+    <nav id="header" role="navigation" aria-label="Primary navigation">
+      <div class="nav-logo">
+        <a href="" class="nav-logo-profile">
+          <div class="nav-logo-text"><p class="nav-name">Elis Poudel</p></div>
+        </a>
+      </div>
+      <div class="nav-icons">
+        <div class="dark-mode-toggle">
+          <button id="darkModeToggle" aria-label="Toggle dark mode"><i class="uil uil-moon" id="darkModeIcon"></i></button>
+        </div>
+        <div class="profile-menu">
+          <button id="profileMenuToggle" aria-label="Toggle profile menu" class="profile-avatar">
+            <i class="uil uil-user-circle"></i><span id="profileUsername" class="profile-name">Student</span>
+          </button>
+          <div id="profileDropdown" class="profile-dropdown">
+            <div class="profile-item logout-item" id="logoutDropdown"><i class="uil uil-sign-out-alt"></i><span>Logout</span></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="materials-page" id="main-content">
+      <section class="materials-topbar" aria-label="Class materials header">
+        <div class="materials-topbar-start">
+          <button class="materials-btn" id="backToDashboard"><i class="uil uil-arrow-left"></i> Back to Dashboard</button>
+          <button class="materials-btn" id="backToChapters" hidden><i class="uil uil-books"></i> Back to Chapters</button>
+        </div>
+        <div class="materials-class-identity">
+          <p class="materials-kicker">Student materials</p>
+          <h1 id="classTitle">Loading class...</h1>
+        </div>
+        <div class="materials-actions">
+          <button class="notifications-toggle" id="notificationsToggle" type="button" aria-label="Toggle notifications" title="Notification Alerts">
+            <i class="uil uil-bell"></i>
+          </button>
+        </div>
+      </section>
+
+      <section class="notifications-section" id="notificationsSection" aria-label="Class notifications">
+        <h2><i class="uil uil-bell"></i> Notification Alerts</h2>
+        <div id="notificationsList"></div>
+      </section>
+
+      <section class="materials-workspace viewer-hidden" id="materialsWorkspace" aria-label="Class chapters and document viewer">
+        <aside class="materials-panel" id="chaptersPanel">
+          <div class="materials-panel-header">
+            <h2><i class="uil uil-books"></i> Chapter Notes</h2>
+            <span class="materials-count" id="chapterCount">0</span>
+          </div>
+          <div class="subject-list" id="subjectList">
+            <div class="document-loading"><i class="uil uil-spinner-alt"></i><p>Loading materials...</p></div>
+          </div>
+        </aside>
+
+        <section class="document-panel" id="documentPanel" aria-label="PDF viewer" hidden>
+          <div class="document-toolbar">
+            <span class="document-title" id="documentTitle">Choose a chapter</span>
+            <i class="uil uil-file-check-alt" aria-hidden="true"></i>
+          </div>
+          <div class="document-frame-wrap" id="documentFrameWrap">
+            <div class="document-empty" id="documentEmpty">
+              <i class="uil uil-file-alt"></i>
+              <h2>Select a chapter to open it</h2>
+              <p>The document will stay inside this page.</p>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script defer src="../assets/js/paths.js"></script>
+  <script defer src="../assets/js/drive-config.js"></script>
+  <script defer src="../assets/js/drive-service.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const classId = params.get('class');
+      const loginPage = '../app/login.html';
+      const dashboardPage = '../app/dashboard.html';
+      const savedUser = sessionStorage.getItem('loggedInUser') || localStorage.getItem('loggedInUser');
+      const savedRole = sessionStorage.getItem('userRole') || localStorage.getItem('userRole');
+      const classTitle = document.getElementById('classTitle');
+      const chapterCount = document.getElementById('chapterCount');
+      const subjectList = document.getElementById('subjectList');
+      const chaptersPanel = document.getElementById('chaptersPanel');
+      const documentPanel = document.getElementById('documentPanel');
+      const materialsWorkspace = document.getElementById('materialsWorkspace');
+      const frameWrap = document.getElementById('documentFrameWrap');
+      const documentTitle = document.getElementById('documentTitle');
+      const documentEmpty = document.getElementById('documentEmpty');
+      const backToDashboard = document.getElementById('backToDashboard');
+      const backToChapters = document.getElementById('backToChapters');
+      const notificationsToggle = document.getElementById('notificationsToggle');
+      const notificationsSection = document.getElementById('notificationsSection');
+      const notificationsList = document.getElementById('notificationsList');
+
+      if (!savedUser || savedRole === 'admin') {
+        window.location.href = loginPage;
+        return;
+      }
+
+      function getDashboardPage() {
+        return window.SITE?.pages?.dashboard || dashboardPage;
+      }
+
+      function setupMaterialsProfile() {
+        const profileToggle = document.getElementById('profileMenuToggle');
+        const profileDropdown = document.getElementById('profileDropdown');
+        const logoutButton = document.getElementById('logoutDropdown');
+        if (profileToggle && profileDropdown && !profileToggle.dataset.ready) {
+          profileToggle.dataset.ready = 'true';
+          profileToggle.addEventListener('click', (event) => {
+            event.stopPropagation();
+            profileDropdown.classList.toggle('active');
+          });
+          document.addEventListener('click', () => profileDropdown.classList.remove('active'));
+        }
+        if (logoutButton && !logoutButton.dataset.ready) {
+          logoutButton.dataset.ready = 'true';
+          logoutButton.addEventListener('click', () => {
+            sessionStorage.removeItem('loggedInUser');
+            sessionStorage.removeItem('userRole');
+            localStorage.removeItem('loggedInUser');
+            localStorage.removeItem('userRole');
+            window.location.href = loginPage;
+          });
+        }
+      }
+
+      function escapeHtml(value) {
+        return String(value || '').replace(/[&<>"']/g, (character) => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[character]));
+      }
+
+      function formatNotificationMessage(value) {
+        return escapeHtml(value).replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+      }
+
+      async function loadNotifications() {
+        try {
+          const service = window.DriveService || window.driveService;
+          const notifications = service && typeof service.fetchNotifications === 'function'
+            ? await service.fetchNotifications()
+            : JSON.parse(localStorage.getItem('studentNotifications') || '[]');
+          const classNotifications = (Array.isArray(notifications) ? notifications : [])
+            .filter((item) => Array.isArray(item.classes) && item.classes.includes(String(classId)));
+          notificationsList.innerHTML = classNotifications.length
+            ? classNotifications.map((item) => `<article class="notification-card"><p>${formatNotificationMessage(item.message || 'New notification')}</p></article>`).join('')
+            : '<div class="notification-card"><p>No alerts for this class yet.</p></div>';
+          showNotificationToast(classNotifications[0]);
+        } catch (error) {
+          notificationsList.innerHTML = '<div class="notification-card"><p>Notifications are unavailable right now.</p></div>';
+        }
+      }
+
+      function showNotificationToast(notification) {
+        if (!notification || !notification.message) return;
+        const existing = document.querySelector('.materials-toast');
+        if (existing) existing.remove();
+        const toast = document.createElement('aside');
+        toast.className = 'materials-toast';
+        toast.setAttribute('role', 'status');
+        toast.innerHTML = `<strong><i class="uil uil-bell"></i> New alert</strong><p>${formatNotificationMessage(notification.message)}</p>`;
+        document.body.appendChild(toast);
+        window.setTimeout(() => toast.remove(), 5000);
+      }
+
+      function getPreviewUrl(chapter) {
+        const fileId = chapter.driveFileId || ((chapter.pdfFile || '').match(/drive\.google\.com\/(?:file\/d\/|open\?id=)([a-zA-Z0-9_-]+)/) || [])[1];
+        if (fileId) return `https://drive.google.com/file/d/${encodeURIComponent(fileId)}/preview`;
+        const service = window.DriveService || window.driveService;
+        return service && typeof service.getPdfUrl === 'function' ? service.getPdfUrl(chapter) : chapter.pdfFile;
+      }
+
+      function showError(message) {
+        frameWrap.innerHTML = `<div class="document-error"><i class="uil uil-exclamation-triangle"></i><h2>Unable to open this document</h2><p>${escapeHtml(message)}</p></div>`;
+      }
+
+      function openChapter(chapter, button) {
+        subjectList.querySelectorAll('.subject-btn').forEach((item) => item.classList.remove('active'));
+        button.classList.add('active');
+        const url = getPreviewUrl(chapter);
+        if (!url) {
+          showError('This chapter does not have a document attached yet.');
+          return;
+        }
+
+        documentTitle.textContent = chapter.title || 'PDF document';
+        frameWrap.innerHTML = '<div class="document-loading" id="documentLoading"><i class="uil uil-spinner-alt"></i><p>Loading document...</p></div>';
+        const iframe = document.createElement('iframe');
+        iframe.className = 'document-frame';
+        iframe.title = chapter.title || 'PDF document';
+        iframe.src = url;
+        iframe.loading = 'eager';
+        iframe.addEventListener('load', () => document.getElementById('documentLoading')?.remove(), { once: true });
+        iframe.addEventListener('error', () => showError('Make sure this Google Drive file is shared as Anyone with the link.'), { once: true });
+        frameWrap.appendChild(iframe);
+        chaptersPanel.hidden = true;
+        documentPanel.hidden = false;
+        materialsWorkspace.classList.remove('viewer-hidden');
+        materialsWorkspace.classList.add('viewer-open');
+        backToDashboard.hidden = true;
+        notificationsToggle.hidden = true;
+        notificationsSection.classList.remove('active');
+        notificationsToggle.classList.remove('active');
+        backToChapters.hidden = false;
+      }
+
+      function renderChapters(chapters) {
+        const visibleChapters = (chapters || []).filter((chapter) => chapter.visible !== false);
+        chapterCount.textContent = visibleChapters.length;
+        if (!visibleChapters.length) {
+          subjectList.innerHTML = '<div class="document-empty"><i class="uil uil-inbox"></i><p>No chapters available yet.</p></div>';
+          return;
+        }
+        subjectList.innerHTML = '';
+        visibleChapters.forEach((chapter, index) => {
+          const button = document.createElement('button');
+          button.className = 'subject-btn';
+          button.type = 'button';
+          button.textContent = chapter.title || `Chapter ${index + 1}`;
+          button.addEventListener('click', () => openChapter(chapter, button));
+          subjectList.appendChild(button);
+        });
+      }
+
+      async function init() {
+        if (!classId) {
+          window.location.href = getDashboardPage();
+          return;
+        }
+        try {
+          const service = window.DriveService || window.driveService;
+          const data = service && typeof service.fetchChapters === 'function'
+            ? await service.fetchChapters()
+            : await fetch(window.SITE?.data?.chapters || '../assets/data/chapters.json').then((response) => response.json());
+          const classData = data[classId];
+          if (!classData) throw new Error('Class materials were not found.');
+          classTitle.textContent = classData.title || `Class ${classId}`;
+          document.title = `${classData.title || `Class ${classId}`} | Materials`;
+          renderChapters(classData.chapters);
+          loadNotifications();
+        } catch (error) {
+          subjectList.innerHTML = `<div class="document-error"><i class="uil uil-exclamation-triangle"></i><p>${escapeHtml(error.message)}</p></div>`;
+        }
+      }
+
+      backToDashboard.addEventListener('click', () => { window.location.href = getDashboardPage(); });
+      notificationsToggle.addEventListener('click', () => {
+        const open = notificationsSection.classList.toggle('active');
+        notificationsToggle.classList.toggle('active', open);
+      });
+      backToChapters.addEventListener('click', () => {
+        chaptersPanel.hidden = false;
+        documentPanel.hidden = true;
+        materialsWorkspace.classList.add('viewer-hidden');
+        materialsWorkspace.classList.remove('viewer-open');
+        backToDashboard.hidden = false;
+        notificationsToggle.hidden = false;
+        backToChapters.hidden = true;
+        documentTitle.textContent = 'Choose a chapter';
+        frameWrap.innerHTML = '';
+        frameWrap.appendChild(documentEmpty);
+      });
+      document.getElementById('profileUsername').textContent = savedUser;
+      setupMaterialsProfile();
+      document.addEventListener('DOMContentLoaded', init);
+    }());
+  </script>
+</body>
+</html>

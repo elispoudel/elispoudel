@@ -1,0 +1,32 @@
+{
+  "6": {
+    "id": 6,
+    "title": "Class 6",
+    "description": "Class 6 overview"
+  },
+  "7": {
+    "id": 7,
+    "title": "Class 7",
+    "description": "Class 7 overview"
+  },
+  "8": {
+    "id": 8,
+    "title": "Class 8",
+    "description": "Class 8 overview"
+  },
+  "9": {
+    "id": 9,
+    "title": "Class 9",
+    "description": "Class 9 overview"
+  },
+  "10": {
+    "id": 10,
+    "title": "Class 10",
+    "description": "Class 10 overview"
+  },
+  "reference": {
+    "id": "reference",
+    "title": "Reference Materials",
+    "description": "Reference Materials overview"
+  }
+}
