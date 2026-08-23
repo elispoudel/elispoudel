@@ -1,7 +1,7 @@
 
 const DRIVE_CONFIG = {
   enabled: true,
-  webAppUrl: 'https://script.google.com/macros/s/AKfycbyphkPyVBZkVsWEwEUoKhpC8Sxv8-pXS7ugytUUA8qtwe9o6KJF53Fw9u2svPhnuUz-Bw/exec',
+  webAppUrl: 'https://script.google.com/macros/s/AKfycbxGZEsBYDVX2ez53XGZp5g8Cbla8Uzs3Pb6dXLmozNURnPQ7CpMAwdTmy4MsM65OjmM1A/exec',
   uploadSecret: 'pbsupdate123',
 };
 
