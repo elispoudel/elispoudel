@@ -685,12 +685,11 @@ I am from Nepal. I completed my Bachelor's degree in Computer Engineering from A
               <form
                 id="contact-form"
                 class="modern-form"
-                action="form.php"
+                action="https://api.web3forms.com/submit"
                 method="POST"
                 novalidate
                 aria-label="Contact form"
               >
-              <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
   <!-- Honeypot for spam protection -->
   <input type="text" name="website" id="website" style="display:none" tabindex="-1" autocomplete="off" />
 
@@ -762,46 +761,6 @@ I am from Nepal. I completed my Bachelor's degree in Computer Engineering from A
 
   <div id="form-response" class="form-response" style="display:none" aria-live="polite"></div>
 </form>
-
-<script>
-const form = document.getElementById('contact-form');
-const responseDiv = document.getElementById('form-response');
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const formData = new FormData(form);
-  const submitBtn = document.getElementById('submit-btn');
-  submitBtn.disabled = true;
-  submitBtn.querySelector('.btn-loading').style.display = 'inline-block';
-
-  try {
-    const response = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      body: formData
-    });
-    const result = await response.json();
-
-    if(result.success) {
-      responseDiv.style.display = 'block';
-      responseDiv.style.color = 'green';
-      responseDiv.innerText = 'Message sent successfully!';
-      form.reset();
-    } else {
-      responseDiv.style.display = 'block';
-      responseDiv.style.color = 'red';
-      responseDiv.innerText = 'Error: ' + result.message;
-    }
-  } catch(err) {
-    responseDiv.style.display = 'block';
-    responseDiv.style.color = 'red';
-    responseDiv.innerText = 'Something went wrong. Please try again.';
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.querySelector('.btn-loading').style.display = 'none';
-  }
-});
-</script>
 
             </div>
           </div>
