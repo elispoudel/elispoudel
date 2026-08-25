@@ -742,6 +742,7 @@ class LoginManager {
   constructor() {
     this.form = document.getElementById("login-form");
     this.hashSalt = "site-login-uj83dh";
+    this.staticStudentUsername = "pbs";
     this.studentStoredHash = "df5187c56fe033c5412cecd098bef02e45fca835d1d99fc422ca8ce0c94852c5";
     this.adminStoredHash = "25d6d8a96889ca7796b800474e323a2c089acb3d9634ffcbb4c42c2953bfdb9a";
     this.messageElement = null;
@@ -863,6 +864,20 @@ class LoginManager {
     }
 
     try {
+      const hash = await this.computeHash(username, password);
+      if (username === this.staticStudentUsername && hash === this.studentStoredHash) {
+        this.saveRememberedCredentials(username, password);
+        sessionStorage.setItem("loggedInUser", username);
+        sessionStorage.setItem("userRole", "student");
+        localStorage.setItem("loggedInUser", username);
+        localStorage.setItem("userRole", "student");
+        this.showMessage("Login successful. Redirecting...", "success");
+        setTimeout(() => {
+          window.location.href = typeof SITE !== "undefined" ? SITE.pages.dashboard : "app/dashboard.html";
+        }, 800);
+        return;
+      }
+
       // Check for admin or student login through the single account endpoint.
       if (typeof DriveService !== "undefined" && DriveService.isEnabled()) {
         const result = await DriveService.authenticate(username, password);
@@ -885,7 +900,6 @@ class LoginManager {
         }
       }
 
-      const hash = await this.computeHash(username, password);
       if (username === "admin" && hash === this.adminStoredHash) {
         this.saveRememberedCredentials(username, password);
         sessionStorage.setItem("loggedInUser", username);
@@ -896,7 +910,7 @@ class LoginManager {
         }, 800);
         return;
       }
-      if (hash === this.studentStoredHash) {
+      if (username === this.staticStudentUsername && hash === this.studentStoredHash) {
         this.saveRememberedCredentials(username, password);
         sessionStorage.setItem("loggedInUser", username);
         sessionStorage.setItem("userRole", "student");
