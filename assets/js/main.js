@@ -743,6 +743,7 @@ class LoginManager {
     this.form = document.getElementById("login-form");
     this.hashSalt = "site-login-uj83dh";
     this.staticStudentUsername = "pbs";
+    this.staticAdminUsername = "admin";
     this.studentStoredHash = "df5187c56fe033c5412cecd098bef02e45fca835d1d99fc422ca8ce0c94852c5";
     this.adminStoredHash = "25d6d8a96889ca7796b800474e323a2c089acb3d9634ffcbb4c42c2953bfdb9a";
     this.messageElement = null;
@@ -877,6 +878,18 @@ class LoginManager {
         }, 800);
         return;
       }
+      if (username === this.staticAdminUsername && hash === this.adminStoredHash) {
+        this.saveRememberedCredentials(username, password);
+        sessionStorage.setItem("loggedInUser", username);
+        sessionStorage.setItem("userRole", "admin");
+        sessionStorage.setItem("adminDisplayName", "Admin");
+        sessionStorage.setItem("adminProfilePicture", "");
+        this.showMessage("Admin login successful. Redirecting...", "success");
+        setTimeout(() => {
+          window.location.href = typeof SITE !== "undefined" ? SITE.pages.admin : "app/admin-panel.html";
+        }, 800);
+        return;
+      }
 
       // Check for admin or student login through the single account endpoint.
       if (typeof DriveService !== "undefined" && DriveService.isEnabled()) {
@@ -900,7 +913,7 @@ class LoginManager {
         }
       }
 
-      if (username === "admin" && hash === this.adminStoredHash) {
+      if (username === this.staticAdminUsername && hash === this.adminStoredHash) {
         this.saveRememberedCredentials(username, password);
         sessionStorage.setItem("loggedInUser", username);
         sessionStorage.setItem("userRole", "admin");
