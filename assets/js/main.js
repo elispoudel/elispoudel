@@ -661,13 +661,15 @@ class EnhancedContactManager {
     try {
       this.setLoading(true);
 
-      // Simulate API call with timeout
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Simulate random success/failure for demo
-          Math.random() > 0.2 ? resolve() : reject(new Error("Server error"));
-        }, 1500);
+      const response = await fetch(this.form.action, {
+        method: this.form.method || "POST",
+        body: new FormData(this.form),
       });
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Server error");
+      }
 
       this.showMessage(
         "Message sent successfully! I'll get back to you soon.",
