@@ -1016,6 +1016,10 @@ class DashboardManager {
   }
 
   setupProfile() {
+       const studentDisplayName =
+      sessionStorage.getItem("studentDisplayName") ||
+      localStorage.getItem("studentDisplayName") ||
+      this.username;
     // Display role in dashboard
     const profileRole = document.querySelector(".profile-role");
     if (profileRole) {
