@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="Look up your Computer Science exam result by student symbol number.">
+  <title>Find Your Results</title>
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #142c45;
+      --muted: #687d91;
+      --blue: #1769d2;
+      --blue-deep: #1055b2;
+      --line: #dce7f1;
+      --surface: #ffffff;
+      --canvas: #f4f8fc;
+      --pale-blue: #edf5ff;
+      --shadow: 0 16px 40px rgba(35, 74, 116, 0.08), 0 2px 8px rgba(35, 74, 116, 0.04);
+      font-family: "DM Sans", "Segoe UI", sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background-color: var(--canvas);
+    }
+
+    .page-shell {
+      width: min(100% - 40px, 780px);
+      margin: 0 auto;
+      padding: calc(90px + clamp(32px, 5vh, 54px)) 0 64px;
+    }
+
+    .page-heading {
+      margin: 0 0 30px;
+      text-align: center;
+      animation: rise-in 500ms ease-out both;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 18px;
+      height: 2px;
+      background: currentColor;
+      content: "";
+    }
+
+    h1, h2, p { margin-top: 0; }
+
+    h1 {
+      margin-bottom: 9px;
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      font-size: clamp(30px, 6vw, 42px);
+      font-weight: 750;
+      line-height: 1.15;
+    }
+
+    .page-heading p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .panel {
+      border: 1px solid rgba(206, 222, 237, 0.85);
+      border-radius: 12px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .search-panel {
+      padding: clamp(22px, 5vw, 34px);
+      animation: rise-in 550ms 70ms ease-out both;
+    }
+
+    .search-panel h2,
+    .result-panel h2 {
+      margin-bottom: 7px;
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      font-size: 20px;
+      font-weight: 720;
+      line-height: 1.3;
+    }
+
+    .search-panel > p {
+      margin-bottom: 23px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .search-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 12px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      color: #354f69;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .input-wrap { position: relative; }
+
+    .input-wrap svg {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      width: 18px;
+      height: 18px;
+      color: #8196aa;
+      pointer-events: none;
+      transform: translateY(-50%);
+    }
+
+    input {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 14px 0 42px;
+      border: 1px solid #cbd9e7;
+      border-radius: 7px;
+      outline: none;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 15px;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    input::placeholder { color: #94a5b5; }
+    input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(23, 105, 210, 0.14); }
+
+    .submit-button {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 20px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .submit-button:disabled { cursor: wait; opacity: 0.75; }
+    .submit-button svg { width: 17px; height: 17px; }
+
+    .feedback {
+      min-height: 20px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .feedback[data-state="error"] { color: #b42332; }
+    .feedback[data-state="success"] { color: #17734c; }
+
+    .results {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .results[hidden] { display: none; }
+
+    .back-button {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .back-button:focus-visible { outline: 3px solid rgba(23, 105, 210, 0.25); outline-offset: 3px; }
+    .back-button svg { width: 17px; height: 17px; }
+
+    .result-panel {
+      min-width: 0;
+      padding: clamp(18px, 3vw, 24px);
+      animation: rise-in 350ms ease-out both;
+    }
+
+    .result-panel h2 { margin-bottom: 14px; }
+
+    .student-details {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(130px, 0.8fr) minmax(100px, 0.55fr);
+      gap: 8px;
+      margin: 0;
+    }
+
+    .detail-item {
+      min-width: 0;
+      padding: 11px 12px;
+      border: 1px solid #e4edf5;
+      border-radius: 8px;
+      background: #fbfdff;
+    }
+
+    .detail-item dt {
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .detail-item dd {
+      overflow-wrap: anywhere;
+      margin: 0;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .marks-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .subject-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 14px;
+      color: #38546e;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .subject-label::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #35a5a0;
+      content: "";
+    }
+
+    .marks-table-wrap { min-width: 0; overflow-x: auto; }
+
+    .marks-table {
+      width: 100%;
+      min-width: 0;
+      border-collapse: collapse;
+      table-layout: fixed;
+      text-align: left;
+    }
+
+    .marks-table th {
+      width: 68%;
+      padding: 11px 12px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: #f5f9fd;
+      color: #587087;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    .marks-table td {
+      width: 32%;
+      padding: 13px 12px;
+      border-bottom: 1px solid #e8eff5;
+      color: var(--blue);
+      font-size: 15px;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    .marks-table tbody tr:not(:last-child) td { color: #142c45; }
+
+    .marks-table tbody tr:last-child th,
+    .marks-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .marks-table tbody tr:last-child th,
+    .marks-table tbody tr:last-child td { color: var(--first-color); }
+
+    body.dark-mode {
+      color-scheme: dark;
+      --ink: #edf4fb;
+      --muted: #aab9c8;
+      --line: #334457;
+      --surface: #172331;
+      --canvas: #101923;
+      --pale-blue: #1b2b3d;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.24), 0 2px 8px rgba(0, 0, 0, 0.16);
+    }
+
+    body.dark-mode .field label,
+    body.dark-mode .subject-label { color: #c2d2e1; }
+
+    body.dark-mode input,
+    body.dark-mode .detail-item,
+    body.dark-mode .marks-table th,
+    body.dark-mode .marks-table td {
+      border-color: #334457;
+      background: #1b2938;
+      color: var(--ink);
+    }
+
+    body.dark-mode .marks-table tbody tr:last-child th,
+    body.dark-mode .marks-table tbody tr:last-child td { background: #203d5b; }
+
+    body.dark-mode .marks-table tbody tr:last-child th,
+    body.dark-mode .marks-table tbody tr:last-child td,
+    body.dark-mode .marks-table tbody tr td { color: var(--ink); }
+
+    body.dark-mode .marks-table tbody tr:last-child td { color: #9fcaff; }
+
+    body.dark-mode .marks-table tbody tr:last-child th,
+    body.dark-mode .marks-table tbody tr:last-child td { color: #b99aff; }
+
+    @keyframes rise-in {
+      from { opacity: 0; transform: translateY(9px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 560px) {
+      .page-shell { width: min(100% - 28px, 780px); padding-top: 112px; }
+      .page-heading { margin-bottom: 23px; }
+      .search-form { grid-template-columns: 1fr; }
+      .submit-button { width: 100%; }
+      .student-details { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 0.7fr); gap: 7px; }
+      .detail-item { padding: 10px 8px; }
+      .detail-item dt { font-size: 10px; }
+      .detail-item dd { font-size: 13px; }
+      .marks-table th { padding: 10px 9px; font-size: 12px; }
+      .marks-table td { padding: 10px 9px; font-size: 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="container">
+    <nav id="header" role="navigation" aria-label="Primary navigation">
+      <div class="nav-logo">
+        <a href="../index.html" class="nav-logo-profile">
+          <div class="nav-logo-text"><p class="nav-name">Elis Poudel</p></div>
+        </a>
+      </div>
+      <div class="nav-menu" id="myNavMenu">
+        <ul class="nav_menu_list" role="menubar">
+          <li class="nav_list" role="none"><a href="../index.html#home" class="nav-link" role="menuitem">Home</a></li>
+          <li class="nav_list" role="none"><a href="../index.html#skills" class="nav-link" role="menuitem">Skills</a></li>
+          <li class="nav_list" role="none"><a href="../index.html#projects" class="nav-link" role="menuitem">Projects</a></li>
+          <li class="nav_list" role="none"><a href="../index.html#contact" class="nav-link" role="menuitem">Contact</a></li>
+          <li class="nav_list" role="none"><a href="login.html" class="nav-link" role="menuitem">Login</a></li>
+        </ul>
+      </div>
+      <div class="nav-icons">
+        <div class="dark-mode-toggle">
+          <button id="darkModeToggle" type="button" aria-label="Toggle dark mode"><i class="uil uil-moon" id="darkModeIcon" aria-hidden="true"></i></button>
+        </div>
+        <div class="nav-menu-btn">
+          <button id="mobileMenuToggle" type="button" aria-label="Toggle mobile menu" aria-expanded="false"><i class="uil uil-bars" id="mobileMenuIcon" aria-hidden="true"></i></button>
+        </div>
+      </div>
+    </nav>
+
+  <main class="page-shell" id="main-content">
+    <header class="page-heading">
+        
+    </header>
+
+    <section class="panel search-panel" aria-labelledby="search-heading">
+      <h2 id="search-heading">Find Your your Computer Marks</h2>
+      <p>Enter your student symbol number to securely look up your result.</p>
+      <form class="search-form" id="result-form">
+        <div class="field">
+          <label for="symbol-number">Student Symbol Number</label>
+          <div class="input-wrap">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 8h8M8 12h3m2 0h3m-8 4h3m2 0h3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <input id="symbol-number" name="symbolNumber" type="text" inputmode="numeric" autocomplete="off" placeholder="E.g. 83005001" required aria-describedby="result-feedback">
+          </div>
+        </div>
+        <button class="btn btn-primary submit-button" id="submit-button" type="submit">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="2"/><path d="m16 16 4.2 4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span>View Marks</span>
+        </button>
+      </form>
+      <p class="feedback" id="result-feedback" role="status" aria-live="polite"></p>
+    </section>
+
+    <div class="results" id="results" hidden>
+      <button class="btn btn-primary back-button" id="back-to-search" type="button">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5m0 0 6 6m-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Back to search</span>
+      </button>
+      <section class="panel result-panel" aria-labelledby="student-heading">
+        <h2 id="student-heading">Student Details</h2>
+        <dl class="student-details">
+          <div class="detail-item"><dt>Student Name</dt><dd id="student-name"></dd></div>
+          <div class="detail-item"><dt>Symbol Number</dt><dd id="student-symbol"></dd></div>
+          <div class="detail-item"><dt>Class</dt><dd id="student-class"></dd></div>
+        </dl>
+      </section>
+
+      <section class="panel result-panel" aria-labelledby="marks-heading">
+        <div class="marks-heading"><h2 id="marks-heading">Computer Science Marks</h2></div>
+        <p class="subject-label">Computer Science</p>
+        <div class="marks-table-wrap">
+          <table class="marks-table">
+            <tbody>
+              <tr><th scope="row">Theory Marks (50)</th><td id="theory-marks"></td></tr>
+              <tr><th scope="row">Practical Marks (50)</th><td id="practical-marks"></td></tr>
+              <tr><th scope="row">Total Marks (100)</th><td id="total-marks"></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+    
+  </main>
+  </div>
+
+  <script>
+    const RESULTS_WORKBOOK_URL = '../assets/data/student-results.xlsx';
+
+    const form = document.getElementById('result-form');
+    const symbolInput = document.getElementById('symbol-number');
+    const submitButton = document.getElementById('submit-button');
+    const feedback = document.getElementById('result-feedback');
+    const results = document.getElementById('results');
+    const searchPanel = document.querySelector('.search-panel');
+    let studentRecordsPromise;
+
+    function showStudent(student) {
+      document.getElementById('student-name').textContent = student.name;
+      document.getElementById('student-symbol').textContent = student.symbolNumber;
+      document.getElementById('student-class').textContent = student.class;
+      document.getElementById('theory-marks').textContent = student.theory;
+      document.getElementById('practical-marks').textContent = student.practical;
+      document.getElementById('total-marks').textContent = student.total;
+      document.querySelector('.search-panel').hidden = true;
+      results.hidden = false;
+    }
+
+    document.getElementById('back-to-search').addEventListener('click', () => {
+      results.hidden = true;
+      searchPanel.hidden = false;
+      feedback.dataset.state = '';
+      feedback.textContent = '';
+      symbolInput.focus();
+    });
+
+    function parseStudent(payload) {
+      const record = payload && (payload.student || payload.result || payload);
+      if (!record || typeof record !== 'object' || payload.error) {
+        throw new Error(payload && payload.error ? payload.error : 'No result was found for that symbol number.');
+      }
+
+      const student = {
+        name: record.name || record.studentName,
+        symbolNumber: String(record.symbolNumber || record.symbol || record.symbolNo || ''),
+        class: record.class || record.grade,
+        theory: record.theory ?? record.theoryMarks,
+        practical: record.practical ?? record.practicalMarks,
+        total: record.total ?? record.totalMarks,
+      };
+
+      if (!student.name || !student.symbolNumber || student.class === undefined ||
+          student.theory === undefined || student.practical === undefined || student.total === undefined) {
+        throw new Error('The result record is incomplete. Check the Apps Script response fields.');
+      }
+      return student;
+    }
+
+    function normalizeHeader(value) {
+      return String(value ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
+    function normalizeSymbolNumber(value) {
+      return String(value ?? '')
+        .trim()
+        .toLowerCase()
+        .replace(/[\s,_-]/g, '')
+        .replace(/^(\d+)\.0+$/, '$1');
+    }
+
+    async function loadStudentRecords() {
+      if (!window.XLSX) {
+        throw new Error('The spreadsheet reader could not load. Check your internet connection and try again.');
+      }
+      if (!studentRecordsPromise) {
+        studentRecordsPromise = fetch(RESULTS_WORKBOOK_URL)
+          .then((response) => {
+            if (!response.ok) throw new Error('The student results workbook could not be loaded.');
+            return response.arrayBuffer();
+          })
+          .then((data) => {
+            const workbook = window.XLSX.read(data, { type: 'array' });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            if (!firstSheet) throw new Error('The student results workbook has no worksheet.');
+            return window.XLSX.utils.sheet_to_json(firstSheet, { defval: '', raw: false });
+          })
+          .catch((error) => {
+            studentRecordsPromise = undefined;
+            throw error;
+          });
+      }
+      return studentRecordsPromise;
+    }
+
+    async function findStudentBySymbol(symbolNumber) {
+      const records = await loadStudentRecords();
+      const symbolKey = normalizeHeader('SymbolNo');
+      const normalizedSymbol = normalizeSymbolNumber(symbolNumber);
+      const record = records.find((row) => {
+        const symbolColumn = Object.keys(row).find((key) => normalizeHeader(key) === symbolKey);
+        return symbolColumn && normalizeSymbolNumber(row[symbolColumn]) === normalizedSymbol;
+      });
+      if (!record) {
+        throw new Error('The symbol number you entered doesn’t match our records. Please check and try again.');
+      }
+
+      const field = (key) => {
+        const column = Object.keys(record).find((label) => normalizeHeader(label) === normalizeHeader(key));
+        return column ? record[column] : '';
+      };
+      return parseStudent({
+        symbolNumber: field('SymbolNo'),
+        name: field('Student Name'),
+        class: field('Class'),
+        theory: field('TheoryMarks(50)'),
+        practical: field('Practical Marks (50)'),
+        total: field('Total Marks (100)')
+      });
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const symbolNumber = symbolInput.value.trim();
+      if (!symbolNumber) return;
+
+      results.hidden = true;
+      feedback.dataset.state = '';
+      feedback.textContent = '';
+      submitButton.disabled = true;
+      submitButton.querySelector('span').textContent = 'Searching...';
+
+      try {
+        const student = await findStudentBySymbol(symbolNumber);
+
+        showStudent(student);
+        feedback.dataset.state = 'success';
+        feedback.textContent = 'Result found.';
+      } catch (error) {
+        feedback.dataset.state = 'error';
+        feedback.textContent = error instanceof TypeError
+          ? 'Could not load the student results workbook. Check that the site is hosted and the workbook is available.'
+          : error.message;
+      } finally {
+        submitButton.disabled = false;
+        submitButton.querySelector('span').textContent = 'View Marks';
+      }
+    });
+  </script>
+  <script src="../assets/js/paths.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
