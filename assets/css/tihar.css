@@ -1,0 +1,248 @@
+/* =====================================================================
+   TIHAR 2083 – hanging lights, marigold garlands, floating lanterns,
+   rangoli + diya greeting banner. Loaded with assets/js/tihar.js
+   To remove the festival look: delete the <link> and <script> tags
+   for these two files (or set TIHAR.enabled = false in tihar.js).
+   Performance: every animation only changes transform or opacity.
+   ===================================================================== */
+
+/* ---------- Side decorations (fixed strips on both sides) ---------- */
+.tihar-side {
+  --th-wire: rgba(40, 24, 10, 0.55);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 150px;
+  z-index: 40;               /* below the navbar (1000) and pop-ups */
+  pointer-events: none;      /* never blocks clicks */
+  contain: layout style;
+}
+body.dark-mode .tihar-side { --th-wire: rgba(255, 255, 255, 0.4); }
+
+.tihar-side.left  { left: 0; }
+.tihar-side.right { right: 0; transform: scaleX(-1); }   /* mirror for the right side */
+
+.th-layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.th-wire  { fill: none; stroke: var(--th-wire); stroke-width: 1.3; }
+
+/* bulbs: two layers that glow in turns so the string "twinkles" */
+.th-lit-a, .th-lit-b { will-change: opacity; }
+.th-lit-a  { animation: th-glow 2.4s ease-in-out infinite; }
+.th-lit-b  { animation: th-glow 2.4s ease-in-out infinite -1.2s; }
+
+@keyframes th-glow      { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; } }
+
+/* floating lanterns */
+.th-lantern {
+  position: absolute;
+  bottom: -90px;
+  left: var(--x, 50%);
+  width: var(--w, 22px);
+  height: calc(var(--w, 22px) * 1.35);
+  border-radius: 42% 42% 48% 48% / 32% 32% 62% 62%;
+  background: radial-gradient(circle at 50% 72%, #fff6c4 0%, #ffbd3a 38%, #ff7a1a 70%, #c23b0a 100%);
+  box-shadow: 0 0 16px 5px rgba(255, 170, 40, 0.55), 0 0 38px 12px rgba(255, 110, 20, 0.22);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: th-rise var(--d, 26s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+.th-lantern::before {            /* little cap on top */
+  content: "";
+  position: absolute;
+  top: -3px; left: 50%;
+  width: 40%; height: 4px;
+  transform: translateX(-50%);
+  border-radius: 3px 3px 0 0;
+  background: #8a2a08;
+}
+@keyframes th-rise {
+  0%   { transform: translate3d(0, 0, 0);          opacity: 0; }
+  8%   { opacity: 0.95; }
+  25%  { transform: translate3d(7px, -26vh, 0); }
+  50%  { transform: translate3d(-6px, -54vh, 0); }
+  75%  { transform: translate3d(6px, -80vh, 0);    opacity: 0.95; }
+  100% { transform: translate3d(0, -108vh, 0);     opacity: 0; }
+}
+
+@media (max-width: 1100px) { .tihar-side { width: 120px; } }
+@media (max-width: 700px)  {
+  .tihar-side { width: 96px; }
+  
+}
+@media (max-width: 480px)  { .tihar-side { width: 80px; } }
+
+/* ---------- Greeting banner (dashboard) ---------- */
+.tihar-banner {
+  position: relative;
+  z-index: 41;               /* above the side decorations (40) so the greeting is always readable */
+  overflow: hidden;
+  isolation: isolate;
+  margin-top: 2.2rem;
+  padding: 30px 30px 26px;
+  border-radius: 20px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 88% 100%, rgba(255, 150, 40, 0.42), transparent 46%),
+    radial-gradient(circle at 8% 10%, rgba(255, 90, 160, 0.26), transparent 42%),
+    linear-gradient(135deg, #12082e 0%, #2b1259 45%, #5e1d5c 78%, #a8321f 100%);
+  box-shadow:
+    inset 0 0 0 1.5px rgba(255, 205, 100, 0.45),
+    0 14px 34px rgba(40, 12, 80, 0.3);
+  animation: th-rise-in 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.tihar-banner[hidden] { display: none; }
+
+/* twinkling night-sky stars */
+.th-sky { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.th-sky span {
+  position: absolute;
+  width: var(--s, 8px);
+  height: var(--s, 8px);
+  background: #ffe9a8;
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+  opacity: 0.25;
+  will-change: opacity;
+  animation: th-twinkle 2.8s ease-in-out infinite;
+}
+@keyframes th-twinkle { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; } }
+
+/* row of diyas, bottom right */
+.th-diyas { position: absolute; right: 64px; bottom: 18px; z-index: 1; display: flex; gap: 14px; align-items: flex-end; pointer-events: none; }
+.th-diya { width: 54px; height: 44px; overflow: visible; }
+.th-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: th-flicker 1.5s ease-in-out infinite; }
+.th-diyas .th-diya:nth-child(2) { margin-bottom: 8px; }
+.th-diyas .th-diya:nth-child(2) .th-flame { animation-delay: -0.5s; }
+.th-diyas .th-diya:nth-child(3) .th-flame { animation-delay: -1s; }
+@keyframes th-flicker {
+  0%, 100% { transform: scale(1, 1); opacity: 1; }
+  30% { transform: scale(0.92, 1.1); opacity: 0.9; }
+  60% { transform: scale(1.06, 0.94); opacity: 1; }
+}
+
+.th-body { position: relative; z-index: 3; display: flex; align-items: center; gap: 22px; padding-right: 34px; }
+.th-badge { flex: 0 0 auto; width: 96px; height: 96px; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35)); }
+.th-copy { min-width: 0; }
+
+.th-nep {
+  margin: 0;
+  font-family: "Mukta", "Poppins", sans-serif;
+  font-size: clamp(30px, 5.4vw, 48px);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffd877;
+  text-shadow: 0 2px 0 rgba(40, 10, 60, 0.6), 0 8px 24px rgba(255, 150, 40, 0.35);
+}
+.th-en  { margin: 6px 0 0; font-size: clamp(15px, 2.2vw, 19px); font-weight: 600; color: #fff; }
+.th-sub { margin: 4px 0 0; max-width: 54ch; font-size: 13.5px; line-height: 1.55; color: rgba(255, 255, 255, 0.88); }
+
+.th-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+.th-chips li {
+  padding: 5px 13px;
+  border: 1px solid rgba(255, 205, 100, 0.7);
+  border-radius: 999px;
+  background: rgba(255, 190, 70, 0.14);
+  box-shadow: 0 0 14px rgba(255, 190, 70, 0.18);
+  color: #ffe6a6;
+  font-family: "Mukta", "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.th-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 4;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.th-close:hover { background: rgba(255, 255, 255, 0.3); }
+.th-close:focus-visible { outline: 3px solid #ffd877; outline-offset: 2px; }
+
+@keyframes th-rise-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 640px) {
+  .tihar-banner { padding: 36px 18px 22px; }
+  .th-body { flex-direction: column; align-items: center; gap: 12px; padding-right: 0; text-align: center; }
+  .th-badge { width: 78px; height: 78px; }
+  .th-chips { justify-content: center; }
+  .th-close { top: 12px; right: 10px; }
+  .th-diyas { display: none; }
+}
+
+/* ---------- Navbar: gold accent line + hanging fairy lights ---------- */
+.th-navlights {
+  position: absolute;
+  left: 0; right: 0;
+  top: 100%;
+  height: 30px;
+  z-index: -1;               /* stays behind the open mobile menu */
+  pointer-events: none;
+  line-height: 0;
+}
+.th-navlights::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -1px;
+  height: 3px;
+  background: linear-gradient(90deg, #ffb400, #ff6a3d, #ff4d8d, #8a5cff, #ff4d8d, #ff6a3d, #ffb400);
+}
+.th-navlights > i { position: absolute; inset: 0; background-repeat: repeat-x; background-position: left top; background-size: 96px 30px; }
+.th-navlights .lit-a { will-change: opacity; animation: th-glow 2.4s ease-in-out infinite; }
+.th-navlights .lit-b { will-change: opacity; animation: th-glow 2.4s ease-in-out infinite -1.2s; }
+
+/* ---------- Festive touches on the rest of the page ---------- */
+body.tihar-on::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(720px 340px at 50% 0%, rgba(255, 170, 50, 0.2), transparent 70%),
+    radial-gradient(520px 320px at 0% 100%, rgba(130, 70, 220, 0.09), transparent 70%),
+    radial-gradient(520px 320px at 100% 100%, rgba(255, 90, 140, 0.08), transparent 70%);
+}
+body.dark-mode.tihar-on::before {
+  background:
+    radial-gradient(720px 340px at 50% 0%, rgba(255, 170, 60, 0.14), transparent 70%),
+    radial-gradient(520px 320px at 0% 100%, rgba(130, 70, 220, 0.14), transparent 70%),
+    radial-gradient(520px 320px at 100% 100%, rgba(255, 90, 140, 0.1), transparent 70%);
+}
+body.tihar-on .profile-card { box-shadow: inset 0 3px 0 0 rgba(255, 160, 40, 0.95), var(--box-shadow); }
+body.tihar-on .class-card { transition: box-shadow 0.25s ease, transform 0.25s ease; }
+body.tihar-on .class-card:hover { box-shadow: 0 12px 28px rgba(255, 140, 30, 0.24), 0 0 0 2px rgba(255, 190, 70, 0.6); }
+
+/* ---------- Performance helpers ---------- */
+/* pause everything while the tab is in the background */
+html.tihar-paused .tihar-side *,
+html.tihar-paused .th-navlights *,
+html.tihar-paused .tihar-banner,
+html.tihar-paused .tihar-banner *,
+html.tihar-paused .tihar-banner::after { animation-play-state: paused !important; }
+
+/* Lite mode: switched on automatically by the speed guard on slow devices – decoration stays, motion stops */
+html.tihar-lite .tihar-side *,
+html.tihar-lite .th-navlights *,
+html.tihar-lite .tihar-banner,
+html.tihar-lite .tihar-banner * { animation: none !important; will-change: auto !important; }
+html.tihar-lite .th-lantern { display: none; }
+html.tihar-lite .th-lit-a, html.tihar-lite .th-lit-b,
+html.tihar-lite .th-navlights .lit-a, html.tihar-lite .th-navlights .lit-b { opacity: 0.8; }
+html.tihar-lite .th-sky span { opacity: 0.7; }
+
+@media (prefers-reduced-motion: reduce) {
+  .th-lit-a, .th-lit-b, .th-lantern, .tihar-banner, .th-sky span,
+  .th-navlights .lit-a, .th-navlights .lit-b, .th-flame { animation: none; }
+  .th-lantern { display: none; }
+  .th-lit-a, .th-lit-b, .th-navlights .lit-a, .th-navlights .lit-b { opacity: 0.8; }
+}
