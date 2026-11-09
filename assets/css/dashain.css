@@ -1,0 +1,254 @@
+/* =====================================================================
+   DASHAIN 2083 – festive kites + greeting banner
+   Loaded together with assets/js/dashain.js
+   To remove the festival look: delete the <link> and <script> tags
+   for these two files (or set DASHAIN.enabled = false in dashain.js).
+   ===================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Mukta:wght@500;700;800&display=swap");
+
+/* ---------- Kites (fixed strips on both sides) ---------- */
+.dashain-kites {
+  --kite-string: rgba(18, 32, 46, 0.6);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 170px;
+  z-index: 40;               /* below the navbar (1000) and pop-ups */
+  pointer-events: none;      /* never blocks clicks */
+}
+body.dark-mode .dashain-kites { --kite-string: rgba(255, 255, 255, 0.55); }
+
+.dashain-kites.left  { left: 0; }
+.dashain-kites.right { right: 0; }
+
+.dashain-kites svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.28));
+}
+.dashain-kites.right svg { transform: scaleX(-1); }
+
+.dk-string { fill: none; stroke: var(--kite-string); stroke-width: 1.2; }
+
+.dk-swing, .dk-tilt { transform-box: view-box; animation: ease-in-out infinite; }
+.dk-swing { animation-name: dk-swing; }
+.dk-tilt  { animation-name: dk-tilt; }
+.dk-tail  { transform-box: fill-box; transform-origin: 50% 0; animation: dk-tail 2.4s ease-in-out infinite; }
+.dk-bow   { transform-box: fill-box; transform-origin: center; animation: dk-bow 1.6s ease-in-out infinite; }
+.dk-star  { transform-box: fill-box; transform-origin: center; animation: dk-star 2.6s ease-in-out infinite; }
+.dk-amb   { transform-box: fill-box; transform-origin: center; animation: dk-amb 3.4s ease-in-out infinite; }
+.dk-spark { transform-box: fill-box; transform-origin: center; animation: dk-spark 2.2s ease-in-out infinite; }
+
+@keyframes dk-swing { 0%, 100% { transform: rotate(-1.6deg); } 50% { transform: rotate(1.6deg); } }
+@keyframes dk-tilt  { 0%, 100% { transform: rotate(-6deg); }   50% { transform: rotate(7deg); } }
+@keyframes dk-tail  { 0%, 100% { transform: rotate(-6deg); }   50% { transform: rotate(7deg); } }
+@keyframes dk-bow   { 0%, 100% { transform: rotate(-16deg); }  50% { transform: rotate(16deg); } }
+@keyframes dk-star { 0%, 100% { opacity: 0.4; transform: scale(0.7) rotate(0deg); } 50% { opacity: 1; transform: scale(1.25) rotate(25deg); } }
+@keyframes dk-amb  { 0%, 100% { opacity: 0.1; transform: scale(0.5); } 50% { opacity: 0.85; transform: scale(1.1); } }
+@keyframes dk-spark { 0%, 100% { opacity: 0.15; transform: scale(0.6); } 50% { opacity: 1; transform: scale(1.15); } }
+
+@media (max-width: 1100px) { .dashain-kites { width: 130px; } }
+@media (max-width: 700px)  { .dashain-kites { width: 96px; } }
+@media (max-width: 480px)  { .dashain-kites { width: 82px; } }
+
+/* ---------- Greeting banner (dashboard) ---------- */
+.dashain-banner {
+  position: relative;
+  z-index: 41;               /* above the kites (40) so the greeting is always readable */
+  overflow: hidden;
+  isolation: isolate;
+  margin-top: 1rem;
+  padding: 46px 30px 26px;
+  border-radius: 20px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 10% 25%, rgba(255, 196, 70, 0.38), transparent 42%),
+    radial-gradient(circle at 92% 95%, rgba(255, 94, 58, 0.45), transparent 46%),
+    linear-gradient(135deg, #6f0d28 0%, #b41c2d 55%, #d9531e 100%);
+  box-shadow:
+    inset 0 0 0 1.5px rgba(255, 214, 120, 0.55),
+    0 0 0 4px rgba(255, 196, 70, 0.16),
+    0 18px 42px rgba(140, 20, 40, 0.34);
+  animation: dashain-rise 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.dashain-banner[hidden] { display: none; }
+
+/* soft mandala-like ring pattern */
+.dashain-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(circle at 50% 50%, transparent 0 9px, rgba(255, 214, 120, 0.14) 10px 11px, transparent 12px),
+    radial-gradient(circle at 0 0, transparent 0 9px, rgba(255, 214, 120, 0.14) 10px 11px, transparent 12px);
+  background-size: 44px 44px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 45%, #000 100%);
+          mask-image: linear-gradient(90deg, transparent 0%, #000 45%, #000 100%);
+}
+
+/* light sweep across the banner */
+.dashain-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 236, 170, 0.3) 50%, transparent 62%);
+  transform: translateX(-120%);
+  animation: dashain-shimmer 7s ease-in-out infinite;
+}
+
+/* twinkling sparkles inside the banner */
+.dashain-sparkles { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.dashain-star {
+  position: absolute;
+  width: var(--s, 10px);
+  height: var(--s, 10px);
+  background: #ffe27a;
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+  filter: drop-shadow(0 0 4px rgba(255, 214, 90, 0.9));
+  animation: dashain-twinkle 2.6s ease-in-out infinite;
+}
+
+/* marigold (sayapatri) garland hanging from the top edge */
+.dashain-garland {
+  position: absolute;
+  top: 0;
+  left: -44px;
+  right: -44px;
+  height: 34px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='34' viewBox='0 0 44 34'%3E%3Cpath d='M0 4Q22 16 44 4' fill='none' stroke='%237a4a00' stroke-width='1.4'/%3E%3Cg transform='translate(22 17)'%3E%3Ccircle r='11' fill='%23ff8a00'/%3E%3Cg fill='%23ffb400'%3E%3Ccircle cy='-7' r='5'/%3E%3Ccircle cx='6.5' cy='-2.5' r='5'/%3E%3Ccircle cx='4' cy='5.5' r='5'/%3E%3Ccircle cx='-4' cy='5.5' r='5'/%3E%3Ccircle cx='-6.5' cy='-2.5' r='5'/%3E%3C/g%3E%3Ccircle r='4' fill='%23c45a00'/%3E%3C/g%3E%3C/svg%3E") repeat-x top left;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.25));
+  animation: dashain-garland 5s ease-in-out infinite alternate;
+}
+
+.dashain-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding-right: 34px;
+}
+
+.dashain-tika {
+  flex: 0 0 auto;
+  width: 92px;
+  height: 92px;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.3));
+}
+
+.dashain-copy { min-width: 0; }
+
+.dashain-nep {
+  margin: 0;
+  font-family: "Mukta", "Poppins", sans-serif;
+  font-size: clamp(30px, 5.4vw, 48px);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffe08a;
+  text-shadow: 0 2px 0 rgba(90, 10, 20, 0.55), 0 8px 22px rgba(0, 0, 0, 0.25);
+}
+
+.dashain-en {
+  margin: 6px 0 0;
+  font-size: clamp(15px, 2.2vw, 19px);
+  font-weight: 600;
+  color: #fff;
+}
+
+.dashain-sub {
+  margin: 4px 0 0;
+  max-width: 52ch;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.dashain-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.dashain-chips li {
+  box-shadow: 0 0 14px rgba(255, 214, 120, 0.18);
+  padding: 5px 13px;
+  border: 1px solid rgba(255, 214, 120, 0.7);
+  border-radius: 999px;
+  background: rgba(255, 214, 120, 0.14);
+  color: #ffe9a8;
+  font-family: "Mukta", "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.dashain-close {
+  position: absolute;
+  top: 40px;
+  right: 14px;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 19px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.dashain-close:hover { background: rgba(255, 255, 255, 0.3); }
+.dashain-close:focus-visible { outline: 3px solid #ffe08a; outline-offset: 2px; }
+
+@keyframes dashain-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes dashain-shimmer { 0%, 55% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+@keyframes dashain-twinkle { 0%, 100% { opacity: 0.25; transform: scale(0.6) rotate(0deg); } 50% { opacity: 1; transform: scale(1.2) rotate(30deg); } }
+@keyframes dashain-garland {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-14px); }
+}
+
+@media (max-width: 640px) {
+  .dashain-banner { padding: 44px 18px 22px; }
+  .dashain-body { flex-direction: column; align-items: center; gap: 12px; padding-right: 0; text-align: center; }
+  .dashain-tika { width: 76px; height: 76px; }
+  .dashain-chips { justify-content: center; }
+  .dashain-close { top: 40px; right: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dk-swing, .dk-tilt, .dk-tail, .dk-bow, .dk-spark, .dk-star, .dk-amb,
+  .dashain-garland, .dashain-banner, .dashain-banner::after, .dashain-star { animation: none; }
+}
+
+/* ---------- Festive touches on the rest of the page ---------- */
+body.dashain-on::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(720px 340px at 50% 0%, rgba(255, 160, 60, 0.2), transparent 70%),
+    radial-gradient(520px 320px at 100% 100%, rgba(220, 40, 60, 0.08), transparent 70%);
+}
+body.dark-mode.dashain-on::before {
+  background:
+    radial-gradient(720px 340px at 50% 0%, rgba(255, 170, 60, 0.14), transparent 70%),
+    radial-gradient(520px 320px at 100% 100%, rgba(220, 40, 60, 0.12), transparent 70%);
+}
+body.dashain-on .profile-card { box-shadow: inset 0 3px 0 0 rgba(242, 183, 5, 0.9), var(--box-shadow); }
+body.dashain-on .class-card { transition: box-shadow 0.25s ease, transform 0.25s ease; }
+body.dashain-on .class-card:hover { box-shadow: 0 12px 28px rgba(217, 83, 30, 0.22), 0 0 0 2px rgba(242, 183, 5, 0.55); }
